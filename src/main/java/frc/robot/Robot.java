@@ -7,10 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.Joystick;
-import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-//import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,12 +15,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
+  private Command m_teleopCommand;
 
   private RobotContainer m_robotContainer;
-  //PowerDistributionPanel PDP = new PowerDistributionPanel(0);
-  private DifferentialDrive m_myRobot;
-  private Joystick m_leftStick;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,15 +28,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     //PDP.clearStickyFaults();
-    CANSparkMax sparkMax1 = new CANSparkMax(1,CANSparkMax.MotorType.kBrushed);
-    CANSparkMax sparkMax2 = new CANSparkMax(2,CANSparkMax.MotorType.kBrushed);
-    CANSparkMax sparkMax3 = new CANSparkMax(3,CANSparkMax.MotorType.kBrushed);
-    CANSparkMax sparkMax4 = new CANSparkMax(4,CANSparkMax.MotorType.kBrushed);
-    m_leftStick = new Joystick(0);
-    m_myRobot = new DifferentialDrive(sparkMax1, sparkMax3);
     m_robotContainer = new RobotContainer();
-    sparkMax2.follow(sparkMax1);
-    sparkMax4.follow(sparkMax3);
   }
 
   /**
@@ -72,15 +57,15 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    if (m_teleopCommand != null) {
+      m_teleopCommand.schedule();
     }
   }
 
-  /** This function is called periodically during autonomous. */
+  // This function is called periodically during autonomous.
   @Override
   public void autonomousPeriodic() {}
 
@@ -90,16 +75,15 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    m_teleopCommand = m_robotContainer.getTeleopCommand();
+    if (m_teleopCommand != null) {
+      m_teleopCommand.cancel();
     }
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    m_myRobot.tankDrive(-m_leftStick.getRawAxis(5), -m_leftStick.getRawAxis(1));
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {

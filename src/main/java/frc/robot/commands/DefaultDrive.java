@@ -25,7 +25,16 @@ public class DefaultDrive extends CommandBase {
   }
 
   @Override
-  public void execute() {
-    m_drive.arcadeDrive(0, 0);
+  public void execute() {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
   }
+    
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+  
 }

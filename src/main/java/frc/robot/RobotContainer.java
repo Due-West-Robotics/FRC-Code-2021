@@ -46,6 +46,10 @@ public class RobotContainer {
   // The driver's controller
   GenericHID m_driverController = new Joystick(0);
 
+  private final Command m_simpleTeleop = new ArcadeDrive(m_robotDrive,
+  () -> m_driverController.getY(GenericHID.Hand.kLeft),
+  () -> m_driverController.getX(GenericHID.Hand.kRight));
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -61,12 +65,12 @@ public class RobotContainer {
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
 
-/*   // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    m_chooser.addOption("Complex Auto", m_complexAuto);
+   // Add commands to the autonomous command chooser
+    m_chooser.setDefaultOption("Default", m_simpleTeleop);
+    //m_chooser.addOption("Complex Auto", m_arcadeDrive);
 
-    // Put the chooser on the dashboard
-    Shuffleboard.getTab("Autonomous").add(m_chooser);*/
+    //Put the chooser on the dashboard
+    Shuffleboard.getTab("Teleop").add(m_chooser);
   }
 
   /**

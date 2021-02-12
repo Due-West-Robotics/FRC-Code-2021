@@ -60,14 +60,18 @@ public class Robot extends TimedRobot {
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_teleopCommand != null) {
+    /*if (m_teleopCommand != null) {
       m_teleopCommand.schedule();
-    }
+    }*/
   }
 
   // This function is called periodically during autonomous.
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    /*if (m_teleopCommand != null) {
+      m_teleopCommand.cancel();
+    }*/
+  }
 
   @Override
   public void teleopInit() {
@@ -77,7 +81,7 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     m_teleopCommand = m_robotContainer.getTeleopCommand();
     if (m_teleopCommand != null) {
-      m_teleopCommand.cancel();
+      m_teleopCommand.schedule();
     }
   }
 

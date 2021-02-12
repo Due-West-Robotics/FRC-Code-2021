@@ -11,14 +11,14 @@ public class DriveSubsystem extends SubsystemBase {
   // The motors on the left side of the drive.
   private final SpeedControllerGroup m_leftMotors =
       new SpeedControllerGroup(
-          new CANSparkMax(DriveConstants.kLeftMotor1Port,CANSparkMax.MotorType.kBrushed),
-          new CANSparkMax(DriveConstants.kLeftMotor2Port,CANSparkMax.MotorType.kBrushed));
+          new CANSparkMax(DriveConstants.kLeftMotor1Port,CANSparkMax.MotorType.kBrushless),
+          new CANSparkMax(DriveConstants.kLeftMotor2Port,CANSparkMax.MotorType.kBrushless));
 
   // The motors on the right side of the drive.
   private final SpeedControllerGroup m_rightMotors =
       new SpeedControllerGroup(
-          new CANSparkMax(DriveConstants.kRightMotor1Port,CANSparkMax.MotorType.kBrushed),
-          new CANSparkMax(DriveConstants.kRightMotor2Port,CANSparkMax.MotorType.kBrushed));
+          new CANSparkMax(DriveConstants.kRightMotor1Port,CANSparkMax.MotorType.kBrushless),
+          new CANSparkMax(DriveConstants.kRightMotor2Port,CANSparkMax.MotorType.kBrushless));
 
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
@@ -52,6 +52,10 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);
+  }
+
+  public void tankDrive(double degrees, double speed) {
+    m_drive.tankDrive(speed, speed);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */

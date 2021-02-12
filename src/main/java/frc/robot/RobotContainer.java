@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.StopIntake;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,6 +46,7 @@ public class RobotContainer {
 
   // The driver's controller
   GenericHID m_driverController = new Joystick(1);
+  IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -74,11 +77,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  /*private void configureButtonBindings() {
+  private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
     new JoystickButton(m_driverController, Button.kA.value)
-        .whenPressed(new GrabHatch(m_hatchSubsystem));
-    // Release the hatch when the 'B' button is pressed.
+        .whenPressed(new StopIntake(m_intakeSubsystem));
+      }
+    /*
+        // Release the hatch when the 'B' button is pressed.
     new JoystickButton(m_driverController, Button.kB.value)
         .whenPressed(new ReleaseHatch(m_hatchSubsystem));
     // While holding the shoulder button, drive at half speed

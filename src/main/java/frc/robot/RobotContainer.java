@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.DriveDistance;
 import frc.robot.subsystems.DriveSubsystem;
@@ -43,19 +44,19 @@ public class RobotContainer {
 
 
   // The driver's controller
-  GenericHID m_driverController = new Joystick(1);
+  GenericHID m_driverController = new Joystick(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
-    //configureButtonBindings();
+    configureButtonBindings();
 
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
     m_robotDrive.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
-        new DefaultDrive(
+        new ArcadeDrive(
             m_robotDrive,
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
@@ -74,26 +75,21 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  /*private void configureButtonBindings() {
-    // Grab the hatch when the 'A' button is pressed.
+  private void configureButtonBindings() {
+    // While holding the A button, drive at half speed
     new JoystickButton(m_driverController, Button.kA.value)
-        .whenPressed(new GrabHatch(m_hatchSubsystem));
-    // Release the hatch when the 'B' button is pressed.
-    new JoystickButton(m_driverController, Button.kB.value)
-        .whenPressed(new ReleaseHatch(m_hatchSubsystem));
-    // While holding the shoulder button, drive at half speed
-    new JoystickButton(m_driverController, Button.kBumperRight.value)
-        .whenHeld(new HalveDriveSpeed(m_robotDrive));
+        .whenHeld(new DriveDistance(10, 50, m_robotDrive));
   }
 
-  /**
+
+  /*public Command getAutonomousCommand() {
+    return m_chooser.getSelected();
+  }*/
+   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
- /* public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
-  }*/
   public Command getTeleopCommand() {
     return m_chooser.getSelected();
   }

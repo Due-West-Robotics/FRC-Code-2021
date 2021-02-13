@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.StopIntake;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,7 +46,12 @@ public class RobotContainer {
 
 
   // The driver's controller
+  IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   GenericHID m_driverController = new Joystick(0);
+
+  private final Command m_simpleTeleop = new ArcadeDrive(m_robotDrive,
+  () -> m_driverController.getY(GenericHID.Hand.kLeft),
+  () -> m_driverController.getX(GenericHID.Hand.kRight));
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -61,12 +68,12 @@ public class RobotContainer {
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
 
-/*   // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-    m_chooser.addOption("Complex Auto", m_complexAuto);
+   // Add commands to the autonomous command chooser
+    m_chooser.setDefaultOption("Default", m_simpleTeleop);
+    //m_chooser.addOption("Complex Auto", m_arcadeDrive);
 
-    // Put the chooser on the dashboard
-    Shuffleboard.getTab("Autonomous").add(m_chooser);*/
+    //Put the chooser on the dashboard
+    Shuffleboard.getTab("Teleop").add(m_chooser);
   }
 
   /**
@@ -76,9 +83,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // While holding the A button, drive at half speed
+    // Grab the hatch when the 'A' button is pressed.
     new JoystickButton(m_driverController, Button.kA.value)
-        .whenHeld(new DriveDistance(10, 50, m_robotDrive));
+        .whenPressed(new StopIntake(m_intakeSubsystem));
+      }
   }
 
 

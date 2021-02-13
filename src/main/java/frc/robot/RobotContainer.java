@@ -67,11 +67,11 @@ public class RobotContainer {
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
 
-    m_intakeSubsystem.setDefaultCommand(
+    /*m_intakeSubsystem.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
       // hand, and turning controlled by the right.
       new startIntake(
-          m_intakeSubsystem));
+          m_intakeSubsystem));*/
 
    // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Default", m_arcadeDrive);
@@ -89,8 +89,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, Button.kA.value).whenPressed(new startIntake(m_intakeSubsystem));
-    new JoystickButton(m_driverController, Button.kB.value).whenPressed(new stopIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, 5).whenPressed(new startIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, 6).whenPressed(new stopIntake(m_intakeSubsystem));
     }
     
 

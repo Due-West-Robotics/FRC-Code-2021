@@ -10,15 +10,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.DriveDistance;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.StopIntake;
+import frc.robot.commands.*;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /**
@@ -30,11 +27,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   // The autonomous routines
 
   // A simple auto routine that drives forward a specified distance, and then stops.
-  private final Command m_simpleAuto =
+  /*private final Command m_simpleAuto =
       new DriveDistance(
           AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed, m_robotDrive);
 
@@ -46,12 +44,13 @@ public class RobotContainer {
 
 
   // The driver's controller
-  IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   GenericHID m_driverController = new Joystick(0);
 
-  private final Command m_simpleTeleop = new ArcadeDrive(m_robotDrive,
+  private final Command m_arcadeDrive = new ArcadeDrive(m_robotDrive,
   () -> m_driverController.getY(GenericHID.Hand.kLeft),
   () -> m_driverController.getX(GenericHID.Hand.kRight));
+
+  private final Command m_defaultDrive = new DefaultDrive(m_robotDrive);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,8 +67,14 @@ public class RobotContainer {
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
 
+    /*m_intakeSubsystem.setDefaultCommand(
+      // A split-stick arcade command, with forward/backward controlled by the left
+      // hand, and turning controlled by the right.
+      new startIntake(
+          m_intakeSubsystem));*/
+
    // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Default", m_simpleTeleop);
+    m_chooser.setDefaultOption("Default", m_arcadeDrive);
     //m_chooser.addOption("Complex Auto", m_arcadeDrive);
 
     //Put the chooser on the dashboard
@@ -84,21 +89,27 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, Button.kA.value)
-        .whenPressed(new StopIntake(m_intakeSubsystem));
-      }
-  }
+    new JoystickButton(m_driverController, 5).whenPressed(new startIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, 6).whenPressed(new stopIntake(m_intakeSubsystem));
+    }
+    
+
 
 
   /*public Command getAutonomousCommand() {
     return m_chooser.getSelected();
-  }*/
+  }
    /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
+
   public Command getTeleopCommand() {
     return m_chooser.getSelected();
+  }
+
+  public void arcadeDrive() {
+    m_arcadeDrive.schedule();
   }
 }

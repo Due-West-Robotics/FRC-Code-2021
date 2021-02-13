@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_teleopCommand;
-
   private RobotContainer m_robotContainer;
 
   /**
@@ -82,11 +80,9 @@ public class Robot extends TimedRobot {
     /*if (m_autonomousCommand != null){
       m_autonomousCommand.cancel();
     }*/
-    
-    m_teleopCommand = m_robotContainer.getTeleopCommand();
-    if (m_teleopCommand != null) {
-      m_teleopCommand.schedule();
-    }
+    //m_teleopCommand = m_robotContainer.getTeleopCommand();
+      m_robotContainer.arcadeDrive();
+
   }
 
   /** This function is called periodically during operator control. */

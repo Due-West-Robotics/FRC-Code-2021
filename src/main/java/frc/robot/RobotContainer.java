@@ -77,7 +77,7 @@ public class RobotContainer {
           m_intakeSubsystem));
 
    // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Default", m_defaultDrive);
+    m_chooser.setDefaultOption("Default", m_arcadeDrive);
     //m_chooser.addOption("Complex Auto", m_arcadeDrive);
 
     //Put the chooser on the dashboard
@@ -108,5 +108,9 @@ public class RobotContainer {
 
   public Command getTeleopCommand() {
     return m_chooser.getSelected();
+  }
+
+  public void arcadeDrive() {
+    m_arcadeDrive.schedule();
   }
 }

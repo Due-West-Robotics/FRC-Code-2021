@@ -26,8 +26,8 @@ public class DriveSubsystem extends SubsystemBase {
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
-  private final CANEncoder encoderL = new CANEncoder (motor1L, EncoderType.kHallSensor, 4096);
-  private final CANEncoder encoderR = new CANEncoder (motor1R, EncoderType.kHallSensor, 4096);
+  private final CANEncoder encoderL = motor1L.getEncoder();
+  private final CANEncoder encoderR = motor1R.getEncoder();
 
   /* The left-side drive encoder
   private final Encoder m_leftEncoder =

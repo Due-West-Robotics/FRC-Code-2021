@@ -103,9 +103,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     FunctionalCommand m_functionalCommand = new FunctionalCommand(
       m_robotDrive::resetEncoders,
-      () -> m_robotDrive.arcadeDrive(1, 0),
+      () -> m_robotDrive.arcadeDrive(0.25, 0),
       interupted -> m_robotDrive.arcadeDrive(0, 0),
-      () ->  m_robotDrive.getLeftEncoder() >= 25,
+      () ->  { new PrintCommand("Autonomouse").execute();
+      return m_robotDrive.getLeftEncoder().getPosition() >= 64/6; },
       m_robotDrive);
     return m_functionalCommand;
   }

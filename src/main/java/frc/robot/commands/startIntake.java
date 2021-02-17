@@ -4,7 +4,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
   
-public class startIntake extends CommandBase {
+public class StartIntake extends CommandBase {
   
   private final IntakeSubsystem m_intake;
 
@@ -13,7 +13,7 @@ public class startIntake extends CommandBase {
    *
    * @param intake The drive subsystem on which this command will run
    */
-  public startIntake(IntakeSubsystem intake) {
+  public StartIntake(IntakeSubsystem intake) {
     m_intake = intake;
     addRequirements(m_intake);
   }

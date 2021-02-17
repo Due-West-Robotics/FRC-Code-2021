@@ -79,9 +79,8 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     /*if (m_autonomousCommand != null){
       m_autonomousCommand.cancel();
-    }*/
     //m_teleopCommand = m_robotContainer.getTeleopCommand();
-      m_robotContainer.arcadeDrive();
+      m_robotContainer.arcadeDrive();*/
 
   }
 
@@ -97,5 +96,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+
+  }
 }

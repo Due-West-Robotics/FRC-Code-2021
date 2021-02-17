@@ -25,7 +25,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    //PDP.clearStickyFaults();
     m_robotContainer = new RobotContainer();
   }
 
@@ -55,12 +54,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    Command m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    /*if (m_teleopCommand != null) {
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }*/
+    }
   }
 
   // This function is called periodically during autonomous.
@@ -77,12 +76,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    /*if (m_autonomousCommand != null){
-      m_autonomousCommand.cancel();
-    //m_teleopCommand = m_robotContainer.getTeleopCommand();
-      m_robotContainer.arcadeDrive();*/
-
-  }
+  //   if (m_autonomousCommand != null){
+  //     m_autonomousCommand.cancel();
+  //   }
+   }
 
   /** This function is called periodically during operator control. */
   @Override
@@ -99,4 +96,5 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
 
   }
+  
 }

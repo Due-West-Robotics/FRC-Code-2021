@@ -14,6 +14,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -32,7 +34,7 @@ public class RobotContainer {
   // The autonomous routines
 
   // A simple auto routine that drives forward a specified distance, and then stops.
-  /*private final Command m_simpleAuto =
+  private final Command m_simpleAuto =
       new DriveDistance(
           AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed, m_robotDrive);
 
@@ -93,15 +95,20 @@ public class RobotContainer {
     new JoystickButton(m_driverController, 6).whenPressed(new StopIntake(m_intakeSubsystem));
   }
 
-
-  /*public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
-  }
    /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
+  public Command getAutonomousCommand() {
+    FunctionalCommand m_functionalCommand = new FunctionalCommand(
+      m_robotDrive::resetEncoders,
+      () -> m_robotDrive.arcadeDrive(1, 0),
+      interupted -> m_robotDrive.arcadeDrive(0, 0),
+      () ->  m_robotDrive.getLeftEncoder() >= 25,
+      m_robotDrive);
+    return m_functionalCommand;
+  }
 
   public Command getTeleopCommand() {
     return m_chooser.getSelected();

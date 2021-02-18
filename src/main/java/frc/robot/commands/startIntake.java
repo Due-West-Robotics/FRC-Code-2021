@@ -20,11 +20,12 @@ public class startIntake extends CommandBase {
 
   @Override
   public void initialize() {
+    m_intake.startIntake();
   }
 
   @Override
   public void execute() {
-    m_intake.startIntake();
+
   }
 
   @Override
@@ -33,6 +34,6 @@ public class startIntake extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

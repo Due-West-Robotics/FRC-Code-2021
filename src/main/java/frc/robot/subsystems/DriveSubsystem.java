@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  private final AHRS ahrs = new AHRS();
+  private final AHRS ahrs = new AHRS(SerialPort.Port.kUSB);
   private final CANSparkMax motor1L = new CANSparkMax(DriveConstants.kLeftMotor1Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor2L = new CANSparkMax(DriveConstants.kLeftMotor2Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor1R = new CANSparkMax(DriveConstants.kRightMotor1Port,CANSparkMax.MotorType.kBrushless);
@@ -26,8 +27,8 @@ public class DriveSubsystem extends SubsystemBase {
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
-  private final CANEncoder encoderL = new CANEncoder (motor1L, EncoderType.kHallSensor, 4096);
-  private final CANEncoder encoderR = new CANEncoder (motor1R, EncoderType.kHallSensor, 4096);
+  private final CANEncoder encoderL = motor1L.getEncoder();
+  private final CANEncoder encoderR = motor1R.getEncoder();
 
   /* The left-side drive encoder
   private final Encoder m_leftEncoder =
@@ -55,7 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rot the commanded rotation
    */
   public void arcadeDrive(double fwd, double rot) {
-    m_drive.arcadeDrive(fwd, rot);
+    m_drive.arcadeDrive(-fwd, rot);
   }
     /**
    * Drives the robot using tankDrive controls.
@@ -73,13 +74,25 @@ public class DriveSubsystem extends SubsystemBase {
     encoderR.setPosition(0);
   }
 
+  public void resetGyro() {
+    ahrs.reset();
+  }
+
+  public void calibrateGyro() {
+    ahrs.calibrate();
+  }
+
   /**
    * Gets the average distance of the TWO encoders.
    *
    * @return the average of the TWO encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (encoderL.getAverageDepth() + encoderR.getAverageDepth()) / 2.0;
+    return (encoderL.getPosition() + encoderR.getPosition()) / 2.0;
+  }
+
+  public double getEncoderL() {
+    return(encoderL.getPosition());
   }
 
   /**
@@ -114,6 +127,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setBrake(){
+    motor1L.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor1R.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor2L.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor2R.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_rightMotors.stopMotor();
     m_leftMotors.stopMotor();
   }

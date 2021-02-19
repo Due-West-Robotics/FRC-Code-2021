@@ -9,7 +9,7 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -70,7 +70,7 @@ public class RobotContainer {
     m_intakeSubsystem.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
       // hand, and turning controlled by the right.
-      new startIntake(
+      new DefaultIntake(
           m_intakeSubsystem));
 
    // Add commands to the autonomous command chooser
@@ -89,8 +89,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, Button.kA.value).whenPressed(new startIntake(m_intakeSubsystem));
-    new JoystickButton(m_driverController, Button.kB.value).whenPressed(new stopIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, Button.kA.value).whenPressed(new StartIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, Button.kB.value).whenPressed(new StopIntake(m_intakeSubsystem));
     }
     
 
@@ -111,5 +111,18 @@ public class RobotContainer {
 
   public void arcadeDrive() {
     m_arcadeDrive.schedule();
+  }
+
+  public Command simpleAuto(){
+    Command auto1 = new Auto1(m_robotDrive);
+    return auto1;
+  }
+
+  public void resetGyro(){
+    m_robotDrive.resetGyro();
+  }
+
+  public double getGyro(){
+    return m_robotDrive.getGyro();
   }
 }

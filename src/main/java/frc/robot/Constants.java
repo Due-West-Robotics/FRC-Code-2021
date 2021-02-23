@@ -19,6 +19,9 @@ public final class Constants {
       public static final int kRightMotor1Port = 3;
       public static final int kRightMotor2Port = 4;
       public static final int kIntakeMotorPort = 5;
+
+      public static final int kLeft = -1;
+      public static final int kRight = 1;
   
       public static final int[] kLeftEncoderPorts = new int[] {0, 1};
       public static final int[] kRightEncoderPorts = new int[] {2, 3};
@@ -45,5 +48,8 @@ public final class Constants {
   
     public static final class OIConstants {
       public static final int kDriverControllerPort = 1;
+      public static final int kButtonIntakeOn = 5;
+      public static final int kButtonIntakeOff = 6;
+      public static final int kButtonIntakeReverse = 1;
     }
   }

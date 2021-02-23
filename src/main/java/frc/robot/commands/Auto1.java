@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.Constants.*;
 
 public class Auto1 extends SequentialCommandGroup {
 
@@ -16,6 +17,6 @@ public class Auto1 extends SequentialCommandGroup {
     m_drive = driveSubsystem;
     addCommands(//new DriveDistance(12, 1, m_drive),
      new WaitCommand(5),
-     new TurnDegrees(m_drive, 90, 0.5));
+     new TurnDegrees(m_drive, 90, 0.5,DriveConstants.kRight));
   }
 }

@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.Constants.*;
 
 /**
  * A command to drive the robot with joystick input (passed in as {@link DoubleSupplier}s). Written
@@ -12,10 +13,12 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class TurnDegrees extends CommandBase {
   private final DriveSubsystem m_drive;
-  private double m_degrees;
+  private double m_targetHeading;
   private double m_rspeed, m_lspeed;
-  private boolean finished = false;
-  private boolean turnRight;
+  private double m_initHeading;
+  private boolean m_finished = false;
+  private int m_direction;
+
 
   /**
    * Creates a new DefaultDrive.
@@ -24,48 +27,46 @@ public class TurnDegrees extends CommandBase {
    * @param degrees   The control input for driving forwards/backwards
    * @param speed     The control input for turning
    */
-  public TurnDegrees(DriveSubsystem subsystem, double degrees, double speed) {
+  public TurnDegrees(DriveSubsystem subsystem, double degrees, double speed, int direction) {
       m_drive = subsystem;
-      m_degrees = degrees;
+      m_targetHeading = degrees;
       m_rspeed = speed;
       m_lspeed = speed;
+      m_direction = direction;
       addRequirements(m_drive);
   }
 
   @Override
   public void initialize() {
-    //m_drive.resetGyro();
-    m_degrees = (m_drive.getGyro() + m_degrees) -360;
-    if (m_degrees < 0) {
-          m_lspeed = m_lspeed * -1;
-          turnRight = false;
-          }
-    else if (m_degrees > 0) {
-        m_rspeed = m_rspeed * -1;
-        turnRight = true;
-    }
-    else{
-        finished = true;
-    }
+
+      //get the current heading
+      m_initHeading = m_drive.getGyro();
+
+      //set motor power for the drive direction
+      if(m_direction == DriveConstants.kLeft) {
+        m_lspeed = -1;
+      } else if(m_direction == DriveConstants.kRight) {
+        m_rspeed = -1;
+      }
     }
 
     @Override
     public void execute() {
+
+      //start turning
       m_drive.tankDrive(m_lspeed, m_rspeed);
-      if (turnRight == true && m_degrees >= m_drive.getGyro()) {
-        finished = true;
+
+      if(m_direction == DriveConstants.kRight) {
+
+      }else if(m_direction == DriveConstants.kLeft) {
+
       }
-      else if (turnRight == false && m_degrees <= m_drive.getGyro()) {
-        finished = true;
-      }
-      else {
-        finished = false;
-      }
+
     }
 
     @Override
     public boolean isFinished() {
-      return finished;
+      return m_finished;
     }
 
     @Override

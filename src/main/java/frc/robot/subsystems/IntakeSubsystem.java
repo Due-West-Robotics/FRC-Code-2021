@@ -18,15 +18,11 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void startIntake() {
-<<<<<<< Updated upstream
-      intakeMotor.set(1);
-=======
       intakeMotor.set(-0.5);
     }
 
     public void reverse() {
       intakeMotor.set(0.5);
->>>>>>> Stashed changes
     }
 
     @Override

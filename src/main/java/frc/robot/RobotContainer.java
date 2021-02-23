@@ -89,8 +89,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
+<<<<<<< Updated upstream
     new JoystickButton(m_driverController, 5).whenPressed(new startIntake(m_intakeSubsystem));
     new JoystickButton(m_driverController, 6).whenPressed(new stopIntake(m_intakeSubsystem));
+=======
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeOn).whenPressed(new StartIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeOff).whenPressed(new StopIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeReverse).whenPressed(new ReverseIntake(m_intakeSubsystem));
+>>>>>>> Stashed changes
     }
     
 

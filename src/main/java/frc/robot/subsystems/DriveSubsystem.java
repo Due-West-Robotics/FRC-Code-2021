@@ -101,7 +101,7 @@ public class DriveSubsystem extends SubsystemBase {
     return (encoderL.getPosition() + encoderR.getPosition()) / 2.0;
   }
 
-  public double getEncoderL() {
+  public double getEncoderLPosition() {
     return(encoderL.getPosition());
   }
 

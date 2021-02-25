@@ -44,10 +44,10 @@ public class DriveDistance extends CommandBase {
   @Override
   public void execute() {
     m_drive.arcadeDrive(m_speed, 0);
-    if (forward == true && Math.abs(m_drive.getEncoderL()) >= m_distance){
+    if (forward == true && Math.abs(m_drive.getEncoderLPosition()) >= m_distance){
       finished = true;
     }
-    else if (forward == false && Math.abs(m_drive.getEncoderL()) <= m_distance){
+    else if (forward == false && Math.abs(m_drive.getEncoderLPosition()) <= m_distance){
       finished = true;
     }
     else {

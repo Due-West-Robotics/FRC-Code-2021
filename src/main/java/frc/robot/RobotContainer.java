@@ -118,11 +118,20 @@ public class RobotContainer {
     return auto1;
   }
 
+  public Command commandTest() {
+    Command myCommandTest = new CommandTest(m_robotDrive);
+    return myCommandTest;
+  }
+
   public void resetGyro(){
     m_robotDrive.resetGyro();
   }
 
   public double getGyro(){
     return m_robotDrive.getGyro();
+  }
+
+  public void calibrateGyro() {
+    m_robotDrive.calibrateGyro();
   }
 }

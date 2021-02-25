@@ -50,6 +50,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+
     currentHeading = getGyro();
   }
 
@@ -84,6 +85,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void calibrateGyro() {
     ahrs.calibrate();
+    while(ahrs.isCalibrating()) {
+
+    }
   }
 
   
@@ -129,17 +133,22 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getGyro() {
-    return (ahrs.getFusedHeading());
+    return (ahrs.getAngle());
   }
 
+
   //resets the number of accumulations
-  public void resetAccumuledHeading() {
+  public void resetCompleteRotations() {
     completeRotations = 0;
   }
 
   //returns the total gyro turn
   public double getAcumulatedHeading() {
     return getGyro() + 360 * completeRotations;
+  }
+
+  public int getCompleteRotations() {
+    return completeRotations;
   }
 
   public void setBrake(){

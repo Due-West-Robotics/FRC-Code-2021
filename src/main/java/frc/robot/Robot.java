@@ -24,10 +24,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    //PDP.clearStickyFaults();
+
     m_robotContainer = new RobotContainer();
+    m_robotContainer.calibrateGyro();
   }
 
   /**
@@ -56,9 +55,10 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    Command m_autonomousCommand = m_robotContainer.simpleAuto();
+    Command m_autonomousCommand = m_robotContainer.commandTest();
+    
     m_robotContainer.resetGyro();
-
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -94,8 +94,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+
+    System.out.println("Initializing test");
+
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+
+    Command commandTest = m_robotContainer.commandTest();
+    
+
+    // schedule the autonomous command (example)
+    if (commandTest != null) {
+      System.out.println("command scheduled");
+      commandTest.schedule();
+    }
   }
 
   /** This function is called periodically during test mode. */

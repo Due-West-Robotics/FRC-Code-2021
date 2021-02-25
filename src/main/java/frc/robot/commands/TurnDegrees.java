@@ -14,8 +14,11 @@ import frc.robot.Constants.*;
 public class TurnDegrees extends CommandBase {
   private final DriveSubsystem m_drive;
   private double m_targetHeading;
+  private double m_speed;
   private double m_rspeed, m_lspeed;
   private double m_initHeading;
+  private double m_accumulatedHeading;
+  private double m_turnRadius;
   private boolean m_finished = false;
   private int m_direction;
 
@@ -27,27 +30,46 @@ public class TurnDegrees extends CommandBase {
    * @param degrees   The control input for driving forwards/backwards
    * @param speed     The control input for turning
    */
-  public TurnDegrees(DriveSubsystem subsystem, double degrees, double speed, int direction) {
+  public TurnDegrees(DriveSubsystem subsystem, double degrees, double speed, int direction, double radius) {
       m_drive = subsystem;
       m_targetHeading = degrees;
-      m_rspeed = speed;
-      m_lspeed = speed;
+      m_speed = speed;
       m_direction = direction;
+      m_turnRadius = radius;
       addRequirements(m_drive);
   }
 
   @Override
   public void initialize() {
 
-      //get the current heading
-      m_initHeading = m_drive.getGyro();
+    System.out.println("Starting");
+    m_drive.setBrake();
 
-      //set motor power for the drive direction
-      if(m_direction == DriveConstants.kLeft) {
-        m_lspeed = -1;
-      } else if(m_direction == DriveConstants.kRight) {
-        m_rspeed = -1;
-      }
+    //calculate the motor speeds required to turn a specific radius
+    double robotRadius = .5*DriveConstants.kDriveWidth;
+    double speedRatio = (m_turnRadius-robotRadius)/(m_turnRadius+robotRadius);
+    double outerSpeed = m_speed;
+    double innerSpeed = m_speed*speedRatio;
+
+    System.out.println("outerSpeed: " + outerSpeed);
+    System.out.println("innerSpeed: " + innerSpeed);
+    //set the motors to go the required speed
+    if(m_direction == DriveConstants.kLeft) {
+      m_rspeed = outerSpeed;
+      m_lspeed = innerSpeed;
+    } else if(m_direction == DriveConstants.kRight) {
+      m_lspeed = outerSpeed;
+      m_rspeed = innerSpeed;
+    }
+      
+
+
+
+       //get the initial heading
+       m_initHeading = m_drive.getGyro();
+
+       //reset the accumulated gyro
+       m_drive.resetCompleteRotations();
     }
 
     @Override
@@ -56,12 +78,16 @@ public class TurnDegrees extends CommandBase {
       //start turning
       m_drive.tankDrive(m_lspeed, m_rspeed);
 
-      if(m_direction == DriveConstants.kRight) {
-
-      }else if(m_direction == DriveConstants.kLeft) {
-
+      //get the current heading
+      m_accumulatedHeading = m_drive.getAcumulatedHeading();
+      //if the goal is reached, stop and set the command to finished
+      if(m_direction == DriveConstants.kRight && m_accumulatedHeading > m_targetHeading) {
+        m_drive.tankDrive(0,0);
+        m_finished = true;
+      }else if(m_direction == DriveConstants.kLeft && m_accumulatedHeading < m_targetHeading) {
+        m_drive.tankDrive(0,0);
+        m_finished = true;
       }
-
     }
 
     @Override

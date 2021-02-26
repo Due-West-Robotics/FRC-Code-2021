@@ -9,7 +9,7 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -70,8 +70,10 @@ public class RobotContainer {
     /*m_intakeSubsystem.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
       // hand, and turning controlled by the right.
-      new startIntake(
-          m_intakeSubsystem));*/
+
+      new DefaultIntake(
+          m_intakeSubsystem));
+
 
    // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Default", m_arcadeDrive);
@@ -89,8 +91,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, 5).whenPressed(new startIntake(m_intakeSubsystem));
-    new JoystickButton(m_driverController, 6).whenPressed(new stopIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeOn).whenPressed(new StartIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeOff).whenPressed(new StopIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeReverse).whenPressed(new ReverseIntake(m_intakeSubsystem));
     }
     
 
@@ -111,5 +114,35 @@ public class RobotContainer {
 
   public void arcadeDrive() {
     m_arcadeDrive.schedule();
+  }
+
+  public Command simpleAuto(){
+    Command auto1 = new Auto1(m_robotDrive);
+    return auto1;
+  }
+
+  public Command commandTest() {
+    Command myCommandTest = new CommandTest(m_robotDrive);
+    return myCommandTest;
+  }
+
+  public void resetGyro(){
+    m_robotDrive.resetGyro();
+  }
+
+  public double getGyro(){
+    return m_robotDrive.getGyro();
+  }
+
+  public void calibrateGyro() {
+    m_robotDrive.calibrateGyro();
+  }
+
+  public void encoderInit(){
+    m_robotDrive.setDistancePerPulse();
+  }
+
+  public void resetEncoders() {
+    m_robotDrive.resetEncoders();
   }
 }

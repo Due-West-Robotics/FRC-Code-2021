@@ -5,13 +5,15 @@ import com.revrobotics.EncoderType;
 import com.revrobotics.CANEncoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  private final AHRS ahrs = new AHRS();
+  private final AHRS ahrs = new AHRS(SerialPort.Port.kUSB);
   private final CANSparkMax motor1L = new CANSparkMax(DriveConstants.kLeftMotor1Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor2L = new CANSparkMax(DriveConstants.kLeftMotor2Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor1R = new CANSparkMax(DriveConstants.kRightMotor1Port,CANSparkMax.MotorType.kBrushless);
@@ -26,26 +28,15 @@ public class DriveSubsystem extends SubsystemBase {
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
-  private final CANEncoder encoderL = new CANEncoder (motor1L, EncoderType.kHallSensor, 4096);
-  private final CANEncoder encoderR = new CANEncoder (motor1R, EncoderType.kHallSensor, 4096);
+  private final CANEncoder encoderL = motor1L.getEncoder();
+  private final CANEncoder encoderR = motor1R.getEncoder();
 
-  /* The left-side drive encoder
-  private final Encoder m_leftEncoder =
-      new Encoder(
-          DriveConstants.kLeftEncoderPorts[0],
-          DriveConstants.kLeftEncoderPorts[1],
-          DriveConstants.kLeftEncoderReversed);
-
-  // The right-side drive encoder
-  private final Encoder m_rightEncoder =
-      new Encoder(
-          DriveConstants.kRightEncoderPorts[0],
-          DriveConstants.kRightEncoderPorts[1],
-          DriveConstants.kRightEncoderReversed);
-          */
+  private double currentHeading;
+  private int completeRotations = 0;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    currentHeading = getGyro();
   }
 
   /**
@@ -72,6 +63,21 @@ public class DriveSubsystem extends SubsystemBase {
     encoderL.setPosition(0);
     encoderR.setPosition(0);
   }
+  public void setDistancePerPulse() {
+    encoderL.setPositionConversionFactor((DriveConstants.kGearRatio)*Math.PI*DriveConstants.kWheelDiameterInches);
+    encoderR.setPositionConversionFactor((DriveConstants.kGearRatio)*Math.PI*DriveConstants.kWheelDiameterInches);
+  }
+
+
+  public void resetGyro() {
+    ahrs.reset();
+  }
+
+  public void calibrateGyro() {
+    ahrs.calibrate();
+    while(ahrs.isCalibrating()) {
+    }
+  }
 
   /**
    * Gets the average distance of the TWO encoders.
@@ -79,7 +85,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the average of the TWO encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (encoderL.getAverageDepth() + encoderR.getAverageDepth()) / 2.0;
+    return (-encoderL.getPosition() + encoderR.getPosition()) / 2.0;
+  }
+
+  public double getEncoderLPosition() {
+    return(-encoderL.getPosition());
   }
 
   /**
@@ -96,10 +106,26 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the right drive encoder
    */
-  public CANEncoder getRightEncoder() {
+  public CANEncoder getFrontRightEncoder() {
     return encoderR;
   }
 
+  public CANSparkMax getFrontLeftSparkMax() {
+    return motor1L;
+  }
+
+  public CANSparkMax getFrontRightSparkMax() {
+    return motor1R;
+  }
+
+  public CANSparkMax getBackLeftSparkMax() {
+    return motor2L;
+  }
+
+  public CANSparkMax getBackRightSparkMax() {
+    return motor2R;
+  }
+  
   /**
    * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
    *
@@ -110,11 +136,56 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getGyro() {
-    return (ahrs.getFusedHeading());
+    return (ahrs.getAngle());
+  }
+
+
+  //resets the number of accumulations
+  public void resetCompleteRotations() {
+    completeRotations = 0;
+  }
+
+  //returns the total gyro turn
+  public double getAcumulatedHeading() {
+    return getGyro() + 360 * completeRotations;
+  }
+
+  public int getCompleteRotations() {
+    return completeRotations;
   }
 
   public void setBrake(){
-    m_rightMotors.stopMotor();
-    m_leftMotors.stopMotor();
+    motor1L.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor1R.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor2L.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor2R.setIdleMode(CANSparkMax.IdleMode.kBrake);
   }
+
+  public void setCoast(){
+    motor1L.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    motor1R.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    motor2L.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    motor2R.setIdleMode(CANSparkMax.IdleMode.kCoast);
+  }
+
+  @Override
+    public void periodic() {
+
+      SmartDashboard.putNumber("encoder", getAverageEncoderDistance());
+
+      //compare old heading to current heading to check for complete rotations
+      double oldHeading = currentHeading;
+
+      //update the current heading
+      currentHeading = getGyro();
+
+      //if the difference is greater than 180 degrees, add or subtract one from complete rotations *NOT USED WITH ONLY GYRO
+      /*if(Math.abs(oldHeading - currentHeading) > 180) {
+        if(oldHeading > currentHeading) {
+          completeRotations++;
+        }else{
+          completeRotations--;
+        }
+      }*/
+    }
 }

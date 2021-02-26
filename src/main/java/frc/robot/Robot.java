@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -23,10 +24,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    //PDP.clearStickyFaults();
+
     m_robotContainer = new RobotContainer();
+    m_robotContainer.calibrateGyro();
+    m_robotContainer.encoderInit();
+    m_robotContainer.resetEncoders();
   }
 
   /**
@@ -55,17 +57,20 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    Command m_autonomousCommand = m_robotContainer.simpleAuto();
+    
+    m_robotContainer.resetGyro();
+    
     // schedule the autonomous command (example)
-    /*if (m_teleopCommand != null) {
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }*/
+    }
   }
 
   // This function is called periodically during autonomous.
   @Override
   public void autonomousPeriodic() {
+    SmartDashboard.putNumber("Gyro", m_robotContainer.getGyro());
     /*if (m_teleopCommand != null) {
       m_teleopCommand.run();
     }*/
@@ -80,8 +85,8 @@ public class Robot extends TimedRobot {
     /*if (m_autonomousCommand != null){
       m_autonomousCommand.cancel();
     }*/
-    //m_teleopCommand = m_robotContainer.getTeleopCommand();
-      m_robotContainer.arcadeDrive();
+
+    //m_robotContainer.arcadeDrive();
 
   }
 
@@ -91,8 +96,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+
+    System.out.println("Initializing test");
+
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+
+    Command commandTest = m_robotContainer.commandTest();
+    
+
+    // schedule the autonomous command (example)
+    if (commandTest != null) {
+      System.out.println("command scheduled");
+      commandTest.schedule();
+    }
   }
 
   /** This function is called periodically during test mode. */

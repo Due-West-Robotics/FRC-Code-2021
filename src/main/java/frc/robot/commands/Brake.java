@@ -26,7 +26,7 @@ public class Brake extends CommandBase {
   // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_drive.setBrake();
+      m_drive.setBrake();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Brake extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return false;
+      return true;
     }
       
     // Called once the command ends or is interrupted.

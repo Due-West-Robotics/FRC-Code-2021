@@ -27,6 +27,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void initialize() {
     m_drive.resetEncoders();
+    m_drive.setBrake();
     if (m_speed < 0) {
       m_speed = m_speed * -1;
     }
@@ -43,11 +44,16 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public void execute() {
-    m_drive.arcadeDrive(m_speed, 0);
-    if (forward == true && Math.abs(m_drive.getEncoderLPosition()) >= m_distance){
+    if (forward == true){
+      m_drive.arcadeDrive(-m_speed, 0);
+    }
+    else if (forward == false){
+      m_drive.arcadeDrive(m_speed, 0);
+    }
+    if (forward == true && Math.abs(m_drive.getAverageEncoderDistance()) >= m_distance){
       finished = true;
     }
-    else if (forward == false && Math.abs(m_drive.getEncoderLPosition()) <= m_distance){
+    else if (forward == false && Math.abs(m_drive.getAverageEncoderDistance()) <= m_distance){
       finished = true;
     }
     else {
@@ -58,6 +64,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.arcadeDrive(0, 0);
+    //m_drive.setCoast();
   }
 
   @Override

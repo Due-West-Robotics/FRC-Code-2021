@@ -31,6 +31,7 @@ public final class Constants {
       public static final boolean kRightEncoderReversed = true;
   
       public static final int kEncoderCPR = 1024;
+      public static final double kGearRatio = 1/10.75;
       public static final double kWheelDiameterInches = 6;
       public static final double kEncoderDistancePerPulse =
           // Assumes the encoders are directly mounted on the wheel shafts

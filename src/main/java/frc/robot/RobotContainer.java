@@ -134,4 +134,12 @@ public class RobotContainer {
   public void calibrateGyro() {
     m_robotDrive.calibrateGyro();
   }
+
+  public void encoderInit(){
+    m_robotDrive.setDistancePerPulse();
+  }
+
+  public void resetEncoders() {
+    m_robotDrive.resetEncoders();
+  }
 }

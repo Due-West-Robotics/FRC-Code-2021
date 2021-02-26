@@ -15,8 +15,8 @@ public class Auto1 extends SequentialCommandGroup {
 
   public Auto1(DriveSubsystem driveSubsystem) {
     m_drive = driveSubsystem;
-    addCommands(//new DriveDistance(12, 1, m_drive),
-     new WaitCommand(5),
-     new TurnDegrees(m_drive, 90, 0.2,DriveConstants.kRight,24));
+    addCommands(new DriveDistance(12, 0.25, m_drive),
+     new WaitCommand(5));
+     //new TurnDegrees(m_drive, 90, 0.2,DriveConstants.kRight,24));
   }
 }

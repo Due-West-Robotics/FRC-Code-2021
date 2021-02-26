@@ -18,7 +18,7 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void startIntake() {
-      intakeMotor.set(-0.1);
+      intakeMotor.set(-0.75);
     }
 
     @Override

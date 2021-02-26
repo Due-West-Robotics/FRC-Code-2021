@@ -27,6 +27,8 @@ public class Robot extends TimedRobot {
 
     m_robotContainer = new RobotContainer();
     m_robotContainer.calibrateGyro();
+    m_robotContainer.encoderInit();
+    m_robotContainer.resetEncoders();
   }
 
   /**
@@ -55,7 +57,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    Command m_autonomousCommand = m_robotContainer.commandTest();
+    Command m_autonomousCommand = m_robotContainer.simpleAuto();
     
     m_robotContainer.resetGyro();
     

@@ -5,6 +5,7 @@ import com.revrobotics.EncoderType;
 import com.revrobotics.CANEncoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
@@ -33,24 +34,8 @@ public class DriveSubsystem extends SubsystemBase {
   private double currentHeading;
   private int completeRotations = 0;
 
-  /* The left-side drive encoder
-  private final Encoder m_leftEncoder =
-      new Encoder(
-          DriveConstants.kLeftEncoderPorts[0],
-          DriveConstants.kLeftEncoderPorts[1],
-          DriveConstants.kLeftEncoderReversed);
-
-  // The right-side drive encoder
-  private final Encoder m_rightEncoder =
-      new Encoder(
-          DriveConstants.kRightEncoderPorts[0],
-          DriveConstants.kRightEncoderPorts[1],
-          DriveConstants.kRightEncoderReversed);
-          */
-
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-
     currentHeading = getGyro();
   }
 
@@ -61,7 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rot the commanded rotation
    */
   public void arcadeDrive(double fwd, double rot) {
-    m_drive.arcadeDrive(-fwd, rot);
+    m_drive.arcadeDrive(fwd, rot);
   }
     /**
    * Drives the robot using tankDrive controls.
@@ -78,6 +63,11 @@ public class DriveSubsystem extends SubsystemBase {
     encoderL.setPosition(0);
     encoderR.setPosition(0);
   }
+  public void setDistancePerPulse() {
+    encoderL.setPositionConversionFactor((DriveConstants.kGearRatio)*Math.PI*DriveConstants.kWheelDiameterInches);
+    encoderR.setPositionConversionFactor((DriveConstants.kGearRatio)*Math.PI*DriveConstants.kWheelDiameterInches);
+  }
+
 
   public void resetGyro() {
     ahrs.reset();
@@ -86,11 +76,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void calibrateGyro() {
     ahrs.calibrate();
     while(ahrs.isCalibrating()) {
-
     }
   }
-
-  
 
   /**
    * Gets the average distance of the TWO encoders.
@@ -98,11 +85,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the average of the TWO encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (encoderL.getPosition() + encoderR.getPosition()) / 2.0;
+    return (-encoderL.getPosition() + encoderR.getPosition()) / 2.0;
   }
 
   public double getEncoderLPosition() {
-    return(encoderL.getPosition());
+    return(-encoderL.getPosition());
   }
 
   /**
@@ -156,12 +143,19 @@ public class DriveSubsystem extends SubsystemBase {
     motor1R.setIdleMode(CANSparkMax.IdleMode.kBrake);
     motor2L.setIdleMode(CANSparkMax.IdleMode.kBrake);
     motor2R.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    m_rightMotors.stopMotor();
-    m_leftMotors.stopMotor();
+  }
+
+  public void setCoast(){
+    motor1L.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    motor1R.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    motor2L.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    motor2R.setIdleMode(CANSparkMax.IdleMode.kCoast);
   }
 
   @Override
     public void periodic() {
+
+      SmartDashboard.putNumber("encoder", getAverageEncoderDistance());
 
       //compare old heading to current heading to check for complete rotations
       double oldHeading = currentHeading;

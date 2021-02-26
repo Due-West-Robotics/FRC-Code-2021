@@ -14,11 +14,16 @@ package frc.robot;
  */
 public final class Constants {
     public static final class DriveConstants {
+      public static final double kDriveWidth = 22;
+      
       public static final int kLeftMotor1Port = 1;
       public static final int kLeftMotor2Port = 2;
       public static final int kRightMotor1Port = 3;
       public static final int kRightMotor2Port = 4;
       public static final int kIntakeMotorPort = 5;
+
+      public static final int kLeft = -1;
+      public static final int kRight = 1;
   
       public static final int[] kLeftEncoderPorts = new int[] {0, 1};
       public static final int[] kRightEncoderPorts = new int[] {2, 3};
@@ -26,6 +31,7 @@ public final class Constants {
       public static final boolean kRightEncoderReversed = true;
   
       public static final int kEncoderCPR = 1024;
+      public static final double kGearRatio = 1/10.75;
       public static final double kWheelDiameterInches = 6;
       public static final double kEncoderDistancePerPulse =
           // Assumes the encoders are directly mounted on the wheel shafts

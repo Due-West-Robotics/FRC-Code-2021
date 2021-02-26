@@ -11,6 +11,7 @@ public class IntakeSubsystem extends SubsystemBase{
                                                             CANSparkMax.MotorType.kBrushless);
 
     public IntakeSubsystem() {
+
     }
 
     public void stopIntake() {
@@ -18,7 +19,7 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void startIntake() {
-      intakeMotor.set(-0.5);
+      intakeMotor.set(-0.75);
     }
 
     public void reverse() {

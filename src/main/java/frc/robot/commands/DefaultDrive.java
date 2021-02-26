@@ -25,7 +25,9 @@ public class DefaultDrive extends CommandBase {
   }
 
   @Override
-  public void execute() {}
+  public void execute() {
+    
+  }
 
   // Returns true when the command should end.
   @Override
@@ -35,6 +37,8 @@ public class DefaultDrive extends CommandBase {
     
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    
+  }
   
 }

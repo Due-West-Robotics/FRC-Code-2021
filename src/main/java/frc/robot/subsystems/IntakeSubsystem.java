@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.ReverseIntake;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase{
@@ -17,7 +18,11 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void startIntake() {
-      intakeMotor.set(1);
+      intakeMotor.set(-0.5);
+    }
+
+    public void reverse() {
+      intakeMotor.set(0.5);
     }
 
     @Override

@@ -9,7 +9,7 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -89,8 +89,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, 5).whenPressed(new startIntake(m_intakeSubsystem));
-    new JoystickButton(m_driverController, 6).whenPressed(new stopIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeOn).whenPressed(new StartIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeOff).whenPressed(new StopIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonIntakeReverse).whenPressed(new ReverseIntake(m_intakeSubsystem));
     }
     
 

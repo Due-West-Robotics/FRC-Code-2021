@@ -1,10 +1,9 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
   
-public class StartIntake extends CommandBase {
+public class ReverseIntake extends CommandBase {
   
   private final IntakeSubsystem m_intake;
 
@@ -13,18 +12,18 @@ public class StartIntake extends CommandBase {
    *
    * @param intake The drive subsystem on which this command will run
    */
-  public StartIntake(IntakeSubsystem intake) {
+  public ReverseIntake(IntakeSubsystem intake) {
     m_intake = intake;
     addRequirements(m_intake);
   }
 
   @Override
   public void initialize() {
+    m_intake.reverse();
   }
 
   @Override
   public void execute() {
-    m_intake.startIntake();
   }
 
   @Override

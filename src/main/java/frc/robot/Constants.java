@@ -45,5 +45,8 @@ public final class Constants {
   
     public static final class OIConstants {
       public static final int kDriverControllerPort = 1;
+      public static final int kButtonIntakeOn = 5;
+      public static final int kButtonIntakeOff = 6;
+      public static final int kButtonIntakeReverse = 1;
     }
   }

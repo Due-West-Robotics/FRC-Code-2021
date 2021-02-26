@@ -119,10 +119,26 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the right drive encoder
    */
-  public CANEncoder getRightEncoder() {
+  public CANEncoder getFrontRightEncoder() {
     return encoderR;
   }
 
+  public CANSparkMax getFrontLeftSparkMax() {
+    return motor1L;
+  }
+
+  public CANSparkMax getFrontRightSparkMax() {
+    return motor1R;
+  }
+
+  public CANSparkMax getBackLeftSparkMax() {
+    return motor2L;
+  }
+
+  public CANSparkMax getBackRightSparkMax() {
+    return motor2R;
+  }
+  
   /**
    * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
    *
@@ -169,13 +185,13 @@ public class DriveSubsystem extends SubsystemBase {
       //update the current heading
       currentHeading = getGyro();
 
-      //if the difference is greater than 180 degrees, add or subtract one from complete rotations
-      if(Math.abs(oldHeading - currentHeading) > 180) {
+      //if the difference is greater than 180 degrees, add or subtract one from complete rotations *NOT USED WITH ONLY GYRO
+      /*if(Math.abs(oldHeading - currentHeading) > 180) {
         if(oldHeading > currentHeading) {
           completeRotations++;
         }else{
           completeRotations--;
         }
-      }
+      }*/
     }
 }

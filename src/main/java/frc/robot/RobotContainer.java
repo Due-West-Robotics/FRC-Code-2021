@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.*;
+import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -28,6 +29,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem();
 
   // The autonomous routines
 
@@ -66,6 +68,8 @@ public class RobotContainer {
             m_robotDrive,
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
+    
+  }
 
     /*m_intakeSubsystem.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left

@@ -11,6 +11,6 @@ public class CommandTest extends SequentialCommandGroup {
     public CommandTest(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
-            new TurnDegrees(m_drive, 90, .4,DriveConstants.kRight,12));
+            new TurnDegrees(m_drive, -90, .4,DriveConstants.kLeft,48));
     }
 }

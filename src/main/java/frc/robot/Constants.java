@@ -16,10 +16,10 @@ public final class Constants {
     public static final class DriveConstants {
       public static final double kDriveWidth = 22;
       
-      public static final int kLeftMotor1Port = 1;
-      public static final int kLeftMotor2Port = 2;
-      public static final int kRightMotor1Port = 3;
-      public static final int kRightMotor2Port = 4;
+      public static final int kLeftMotor1Port = 3;
+      public static final int kLeftMotor2Port = 4;
+      public static final int kRightMotor1Port = 1;
+      public static final int kRightMotor2Port = 2;
       public static final int kIntakeMotorPort = 5;
 
       public static final int kLeft = -1;

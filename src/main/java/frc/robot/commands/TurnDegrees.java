@@ -25,8 +25,9 @@ public class TurnDegrees extends CommandBase {
   private int m_direction;
   private CANPIDController m_flSpeedPID;
   private CANPIDController m_frSpeedPID;
-  private CANPIDController m_blSpeedPID;
-  private CANPIDController m_brSpeedPID;
+  private double outerSpeed;
+  private double innerSpeed;
+  private boolean reverse;
 
   /**
    * Creates a new DefaultDrive.
@@ -41,10 +42,17 @@ public class TurnDegrees extends CommandBase {
       m_speed = speed;
       m_direction = direction;
       m_turnRadius = radius;
+      System.out.println("Created");
       m_flSpeedPID = m_drive.getFrontLeftSparkMax().getPIDController();
       m_frSpeedPID = m_drive.getFrontRightSparkMax().getPIDController();
-      m_blSpeedPID = m_drive.getBackLeftSparkMax().getPIDController();
-      m_brSpeedPID = m_drive.getBackRightSparkMax().getPIDController();
+      m_drive.getBackLeftSparkMax().follow(m_drive.getFrontLeftSparkMax());
+      m_drive.getBackRightSparkMax().follow(m_drive.getFrontRightSparkMax());
+      m_flSpeedPID.setP(.00026);
+      m_frSpeedPID.setP(.00026);
+      m_flSpeedPID.setI(0);
+      m_frSpeedPID.setI(0);
+      m_flSpeedPID.setD(0);
+      m_frSpeedPID.setD(0);
       addRequirements(m_drive);
   }
 
@@ -58,28 +66,14 @@ public class TurnDegrees extends CommandBase {
     //calculate the motor speeds required to turn a specific radius
     double robotRadius = .5*DriveConstants.kDriveWidth;
     double speedRatio = (m_turnRadius-robotRadius)/(m_turnRadius+robotRadius);
-    double outerSpeed = m_speed;
-    double innerSpeed = m_speed*speedRatio;
+    outerSpeed = m_speed;
+    innerSpeed = m_speed*speedRatio;
 
     System.out.println("outerSpeed: " + outerSpeed);
     System.out.println("innerSpeed: " + innerSpeed);
 
-    //set the motors to go the required speed
-    if(m_direction == DriveConstants.kLeft) {
-      m_frSpeedPID.setReference(outerSpeed, ControlType.kVelocity);
-      m_brSpeedPID.setReference(outerSpeed, ControlType.kVelocity);
-      m_flSpeedPID.setReference(innerSpeed, ControlType.kVelocity);
-      m_blSpeedPID.setReference(innerSpeed, ControlType.kVelocity);
-    } else if(m_direction == DriveConstants.kRight) {
-      m_frSpeedPID.setReference(innerSpeed, ControlType.kVelocity);
-      m_brSpeedPID.setReference(innerSpeed, ControlType.kVelocity);
-      m_flSpeedPID.setReference(outerSpeed, ControlType.kVelocity);
-      m_blSpeedPID.setReference(outerSpeed, ControlType.kVelocity);
-    }
+    
       
-
-
-
        //get the initial heading
        m_initHeading = m_drive.getGyro();
 
@@ -90,18 +84,24 @@ public class TurnDegrees extends CommandBase {
     @Override
     public void execute() {
 
-      //start turning
-      m_drive.tankDrive(m_lspeed, m_rspeed);
-
       //get the current heading
       m_accumulatedHeading = m_drive.getAcumulatedHeading();
+
       //if the goal is reached, stop and set the command to finished
       if(m_direction == DriveConstants.kRight && m_accumulatedHeading > m_targetHeading) {
-        m_drive.tankDrive(0,0);
+        m_frSpeedPID.setReference(0, ControlType.kVoltage);
+        m_flSpeedPID.setReference(0, ControlType.kVoltage);
         m_finished = true;
       }else if(m_direction == DriveConstants.kLeft && m_accumulatedHeading < m_targetHeading) {
-        m_drive.tankDrive(0,0);
+        m_frSpeedPID.setReference(0, ControlType.kVoltage);
+        m_flSpeedPID.setReference(0, ControlType.kVoltage);
         m_finished = true;
+      } else if(m_direction == DriveConstants.kLeft) { //if the goal is not reached, keep the pid loop running
+        m_frSpeedPID.setReference(outerSpeed * 5676 , ControlType.kVelocity);
+        m_flSpeedPID.setReference(innerSpeed * 5676 , ControlType.kVelocity);
+      } else if(m_direction == DriveConstants.kRight) {
+        m_frSpeedPID.setReference(innerSpeed * 5676 , ControlType.kVelocity);
+        m_flSpeedPID.setReference(outerSpeed * 5676 , ControlType.kVelocity);
       }
     }
 
@@ -112,6 +112,14 @@ public class TurnDegrees extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+      System.out.println("Done");
+/*          m_drive.getFrontLeftSparkMax().setInverted(false);
+          m_drive.getBackLeftSparkMax().setInverted(false);
+          m_drive.getFrontRightSparkMax().setInverted(false);
+          m_drive.getBackRightSparkMax().setInverted(false);
+*/
+      //m_drive.setCoast();
+  
       m_drive.arcadeDrive(0, 0);
     }
 }

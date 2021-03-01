@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.Autonomous.*;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /**
@@ -66,6 +67,8 @@ public class RobotContainer {
             m_robotDrive,
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
+          
+    }
 
     /*m_intakeSubsystem.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
@@ -116,9 +119,9 @@ public class RobotContainer {
     m_arcadeDrive.schedule();
   }
 
-  public Command simpleAuto(){
-    Command auto1 = new Auto1(m_robotDrive);
-    return auto1;
+  public Command BarrelRacing(){
+    Command BarrelRacing = new BarrelRacing(m_robotDrive);
+    return BarrelRacing;
   }
 
   public Command commandTest() {

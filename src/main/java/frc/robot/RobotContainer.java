@@ -71,8 +71,6 @@ public class RobotContainer {
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
   }
 
-    }
-
     /*m_intakeSubsystem.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
       // hand, and turning controlled by the right.

@@ -37,6 +37,10 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     currentHeading = getGyro();
+    motor1L.setInverted(false);
+    motor2L.setInverted(false);
+    motor1R.setInverted(true);
+    motor2R.setInverted(true);
   }
 
   /**

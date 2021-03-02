@@ -62,6 +62,10 @@ public class TurnDegrees extends CommandBase {
     System.out.println("Starting");
     m_drive.setBrake();
 
+    //invert the two right motors
+    m_drive.getFrontRightSparkMax().setInverted(true);
+    m_drive.getBackRightSparkMax().setInverted(true);
+
 
     //calculate the motor speeds required to turn a specific radius
     double robotRadius = .5*DriveConstants.kDriveWidth;
@@ -119,6 +123,9 @@ public class TurnDegrees extends CommandBase {
           m_drive.getBackRightSparkMax().setInverted(false);
 */
       //m_drive.setCoast();
+      //invert the two right motors
+      m_drive.getFrontRightSparkMax().setInverted(false);
+      m_drive.getBackRightSparkMax().setInverted(false);
   
       m_drive.arcadeDrive(0, 0);
     }

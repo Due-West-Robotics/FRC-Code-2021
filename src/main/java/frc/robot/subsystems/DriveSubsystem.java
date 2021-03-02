@@ -39,8 +39,8 @@ public class DriveSubsystem extends SubsystemBase {
     currentHeading = getGyro();
     motor1L.setInverted(false);
     motor2L.setInverted(false);
-    motor1R.setInverted(true);
-    motor2R.setInverted(true);
+    motor1R.setInverted(false);
+    motor2R.setInverted(false);
   }
 
   /**
@@ -50,7 +50,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rot the commanded rotation
    */
   public void arcadeDrive(double fwd, double rot) {
-    m_drive.arcadeDrive(fwd, rot);
+    m_drive.arcadeDrive(-fwd, rot);
   }
     /**
    * Drives the robot using tankDrive controls.

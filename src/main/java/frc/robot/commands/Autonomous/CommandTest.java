@@ -12,9 +12,16 @@ public class CommandTest extends SequentialCommandGroup {
     public CommandTest(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
-            new TurnDegrees(m_drive, 268.481, .4,DriveConstants.kRight,24),
-            new DriveDistance(46.744, .5, m_drive),
-            new TurnDegrees(m_drive, 0, .4,DriveConstants.kLeft,24),
-            new DriveDistance(48, .5, m_drive));
+            new DriveDistance(24, .4, m_drive),
+            new TurnDegrees(m_drive, -85, .25, DriveConstants.kLeft, 30),
+            new TurnDegrees(m_drive, -7, .25, DriveConstants.kRight, 30),
+            new DriveDistance(120, .35, m_drive),
+            new TurnDegrees(m_drive, 85, .25, DriveConstants.kRight, 30),
+            new TurnDegrees(m_drive, -265, .25, DriveConstants.kLeft, 28),
+            new TurnDegrees(m_drive, -190, .25, DriveConstants.kRight, 30),
+            new DriveDistance(120, .35, m_drive),
+            new TurnDegrees(m_drive, -95, .25, DriveConstants.kRight, 30),
+            new TurnDegrees(m_drive, -175, .25, DriveConstants.kLeft, 27));
+            //new DriveDistance(10, .25, m_drive));
     }
 }

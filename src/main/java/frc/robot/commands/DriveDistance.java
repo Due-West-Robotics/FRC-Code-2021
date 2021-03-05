@@ -10,6 +10,7 @@ public class DriveDistance extends CommandBase {
   private boolean finished = false;
   private boolean forward;
 
+
   /**
    * Creates a new DriveDistance.
    *
@@ -40,6 +41,7 @@ public class DriveDistance extends CommandBase {
     else {
       finished = true;
     }
+
   }
 
   @Override
@@ -52,9 +54,13 @@ public class DriveDistance extends CommandBase {
     }
     if (forward == true && Math.abs(m_drive.getAverageEncoderDistance()) >= m_distance){
       finished = true;
+      m_drive.getFrontLeftSparkMax().getPIDController().setIAccum(0);
+      m_drive.getFrontRightSparkMax().getPIDController().setIAccum(0);
     }
     else if (forward == false && Math.abs(m_drive.getAverageEncoderDistance()) <= m_distance){
       finished = true;
+      m_drive.getFrontLeftSparkMax().getPIDController().setIAccum(0);
+      m_drive.getFrontRightSparkMax().getPIDController().setIAccum(0);
     }
     else {
       finished = false;

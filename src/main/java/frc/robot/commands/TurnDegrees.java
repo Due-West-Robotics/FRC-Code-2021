@@ -37,23 +37,21 @@ public class TurnDegrees extends CommandBase {
    * @param speed     The control input for turning
    */
   public TurnDegrees(DriveSubsystem subsystem, double degrees, double speed, int direction, double radius) {
-      m_drive = subsystem;
-      m_targetHeading = degrees;
-      m_speed = speed;
-      m_direction = direction;
-      m_turnRadius = radius;
-      System.out.println("Created");
-      m_flSpeedPID = m_drive.getFrontLeftSparkMax().getPIDController();
-      m_frSpeedPID = m_drive.getFrontRightSparkMax().getPIDController();
-      m_drive.getBackLeftSparkMax().follow(m_drive.getFrontLeftSparkMax());
-      m_drive.getBackRightSparkMax().follow(m_drive.getFrontRightSparkMax());
-      m_flSpeedPID.setP(.00026);
-      m_frSpeedPID.setP(.00026);
-      m_flSpeedPID.setI(0);
-      m_frSpeedPID.setI(0);
-      m_flSpeedPID.setD(0);
-      m_frSpeedPID.setD(0);
-      addRequirements(m_drive);
+
+    //setup method variables
+    m_drive = subsystem;
+    m_targetHeading = degrees;
+    m_speed = speed;
+    m_direction = direction;
+    m_turnRadius = radius;
+    System.out.println("Created");
+    m_flSpeedPID = m_drive.getFrontLeftSparkMax().getPIDController();
+    m_frSpeedPID = m_drive.getFrontRightSparkMax().getPIDController();
+
+    
+
+    //add drive requirements
+    addRequirements(m_drive);
   }
 
   @Override
@@ -81,9 +79,9 @@ public class TurnDegrees extends CommandBase {
        //get the initial heading
        m_initHeading = m_drive.getGyro();
 
-       //reset the accumulated gyro
-       m_drive.resetCompleteRotations();
-    }
+    //reset the accumulated gyro
+    m_drive.resetCompleteRotations();
+  }
 
     @Override
     public void execute() {

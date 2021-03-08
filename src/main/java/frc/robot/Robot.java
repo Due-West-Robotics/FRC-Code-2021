@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    Command m_autonomousCommand = m_robotContainer.commandTest();
+    Command m_autonomousCommand = m_robotContainer.slalomPath();
     
     m_robotContainer.resetGyro();
     
@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
 
-    Command commandTest = m_robotContainer.commandTest();
+    Command commandTest = m_robotContainer.slalomPath();
     
 
     // schedule the autonomous command (example)

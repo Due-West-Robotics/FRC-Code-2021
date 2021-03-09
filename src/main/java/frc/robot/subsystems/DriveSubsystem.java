@@ -3,8 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANEncoder;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,14 +21,9 @@ public class DriveSubsystem extends SubsystemBase {
   private final CANEncoder encoderL = motor1L.getEncoder();
   private final CANEncoder encoderR = motor1R.getEncoder();
 
-  // The motors on the left side of the drive.
-  private final SpeedControllerGroup m_leftMotors = new SpeedControllerGroup(motor1L);
-
-  // The motors on the right side of the drive.
-  private final SpeedControllerGroup m_rightMotors = new SpeedControllerGroup(motor1R);
-
-  // The robot's drive
-  private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+  private double PID_P = DriveConstants.kDefaultP;
+  private double PID_I = DriveConstants.kDefaultI;
+  private double PID_D = DriveConstants.kDefaultD;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -43,15 +36,22 @@ public class DriveSubsystem extends SubsystemBase {
     motor2L.follow(getFrontLeftSparkMax());
     motor2R.follow(getFrontRightSparkMax());
 
-    //setup PID controllers
-    motor1L.getPIDController().setP(DriveConstants.kDriveDefaultP);
-    motor1R.getPIDController().setP(DriveConstants.kDriveDefaultP);
-    motor1L.getPIDController().setI(DriveConstants.kDriveDefaultI);
-    motor1R.getPIDController().setI(DriveConstants.kDriveDefaultI);
-    motor1L.getPIDController().setD(DriveConstants.kDriveDefaultD);
-    motor1R.getPIDController().setD(DriveConstants.kDriveDefaultD);
+    //setup PID controller
+    motor1L.getPIDController().setIZone(DriveConstants.kIZone);
+    motor1R.getPIDController().setIZone(DriveConstants.kIZone);
+    updatePID();
+    
   }
 
+  //updated the PID values on the spark maxes
+  private void updatePID() {
+    motor1L.getPIDController().setP(PID_P);
+    motor1R.getPIDController().setP(PID_P);
+    motor1L.getPIDController().setI(PID_I);
+    motor1R.getPIDController().setI(PID_I);
+    motor1L.getPIDController().setD(PID_D);
+    motor1R.getPIDController().setD(PID_D);
+  }
   /**
    * Drives the robot using arcade controls.
    *
@@ -80,7 +80,6 @@ public class DriveSubsystem extends SubsystemBase {
       m_rot = 0;
     }
 
-
     m_fwd = Math.pow(m_fwd,2);
     m_rot = Math.pow(m_rot,2);
 
@@ -95,9 +94,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     leftMotorOutput = MathUtil.clamp(leftMotorOutput, -1.0, 1.0);
     rightMotorOutput = MathUtil.clamp(rightMotorOutput, -1.0, 1.0);
-
-    System.out.println("leftMotorOutput: " + leftMotorOutput);
-    System.out.println("rightMotorOutput: " + rightMotorOutput);
 
     motor1L.getPIDController().setReference(leftMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
     motor1R.getPIDController().setReference(rightMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
@@ -130,11 +126,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the average of the TWO encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (-encoderL.getPosition() + encoderR.getPosition()) / 2.0;
+    return (encoderL.getPosition() + encoderR.getPosition()) / 2.0;
   }
 
   public double getEncoderLPosition() {
-    return(-encoderL.getPosition());
+    return(encoderL.getPosition());
   }
 
   /**
@@ -151,7 +147,7 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the right drive encoder
    */
-  public CANEncoder getFrontRightEncoder() {
+  public CANEncoder getRightEncoder() {
     return encoderR;
   }
 
@@ -169,15 +165,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   public CANSparkMax getBackRightSparkMax() {
     return motor2R;
-  }
-  
-  /**
-   * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
-   *
-   * @param maxOutput the maximum output to which the drive will be constrained
-   */
-  public void setMaxOutput(double maxOutput) {
-    m_drive.setMaxOutput(maxOutput);
   }
 
   public double getGyro() {
@@ -198,10 +185,38 @@ public class DriveSubsystem extends SubsystemBase {
     motor2R.setIdleMode(CANSparkMax.IdleMode.kCoast);
   }
 
+  public void restorePID_Defaults() {
+    PID_P = DriveConstants.kDefaultP;
+    PID_I = DriveConstants.kDefaultI;
+    PID_D = DriveConstants.kDefaultD;
+    updatePID();
+  }
+
+  public void setPID_P(double p) {
+    PID_P = p;
+    updatePID();
+  }
+
+  public void setPID_I(double i) {
+    PID_I = i;
+    updatePID();
+  }
+
+  public void setPID_D(double d) {
+    PID_D = d;
+    updatePID();
+  }
+
+  public void resetIAccum() {
+    motor1L.getPIDController().setIAccum(0);
+    motor1R.getPIDController().setIAccum(0);
+  }
+
   @Override
     public void periodic() {
 
-      SmartDashboard.putNumber("encoder", getAverageEncoderDistance());
+      SmartDashboard.putNumber("encoderL", getLeftEncoder().getPosition());
+      SmartDashboard.putNumber("encoderR", getRightEncoder().getPosition());
 
       //if the difference is greater than 180 degrees, add or subtract one from complete rotations *NOT USED WITH ONLY GYRO
       /*if(Math.abs(oldHeading - currentHeading) > 180) {

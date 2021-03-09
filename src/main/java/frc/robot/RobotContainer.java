@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.commands.Autonomous.AutoNav.*;
 import frc.robot.commands.Autonomous.GalacticSearch.*;
+import frc.robot.commands.Autonomous.AutoTest;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /**
@@ -126,6 +127,11 @@ public class RobotContainer {
   public Command slalomPath() {
     Command mySlalomPath = new SlalomPath(m_robotDrive);
     return mySlalomPath;
+  }
+
+  public Command AutoTest() {
+    Command myAutoTest = new AutoTest(m_robotDrive);
+    return myAutoTest;
   }
 
   public void resetGyro(){

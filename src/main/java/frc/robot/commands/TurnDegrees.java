@@ -17,8 +17,6 @@ public class TurnDegrees extends CommandBase {
   private final DriveSubsystem m_drive;
   private double m_targetHeading;
   private double m_speed;
-  private double m_rspeed, m_lspeed;
-  private double m_initHeading;
   private double m_accumulatedHeading;
   private double m_turnRadius;
   private boolean m_finished = false;
@@ -27,7 +25,8 @@ public class TurnDegrees extends CommandBase {
   private CANPIDController m_frSpeedPID;
   private double outerSpeed;
   private double innerSpeed;
-  private boolean reverse;
+  private double rightSpeed;
+  private double leftSpeed;
 
   /**
    * Creates a new DefaultDrive.
@@ -44,11 +43,8 @@ public class TurnDegrees extends CommandBase {
     m_speed = speed;
     m_direction = direction;
     m_turnRadius = radius;
-    System.out.println("Created");
     m_flSpeedPID = m_drive.getFrontLeftSparkMax().getPIDController();
     m_frSpeedPID = m_drive.getFrontRightSparkMax().getPIDController();
-
-    
 
     //add drive requirements
     addRequirements(m_drive);
@@ -59,12 +55,7 @@ public class TurnDegrees extends CommandBase {
 
     System.out.println("Starting");
     m_drive.setBrake();
-
-    //invert the two right motors
-    m_drive.getFrontRightSparkMax().setInverted(true);
-    m_drive.getBackRightSparkMax().setInverted(true);
-
-
+    
     //calculate the motor speeds required to turn a specific radius
     double robotRadius = .5*DriveConstants.kDriveWidth;
     double speedRatio = (m_turnRadius-robotRadius)/(m_turnRadius+robotRadius);
@@ -74,10 +65,17 @@ public class TurnDegrees extends CommandBase {
     System.out.println("outerSpeed: " + outerSpeed);
     System.out.println("innerSpeed: " + innerSpeed);
 
-    
-      
-       //get the initial heading
-       m_initHeading = m_drive.getGyro();
+    if(m_direction == DriveConstants.kLeft) { 
+      rightSpeed = outerSpeed;
+      leftSpeed = innerSpeed;
+    } else if(m_direction == DriveConstants.kRight) {
+      rightSpeed = innerSpeed;
+      leftSpeed = outerSpeed;
+    }
+
+    if(m_speed < 0) {
+      m_direction *= -1;
+    }
 
   }
 
@@ -96,12 +94,9 @@ public class TurnDegrees extends CommandBase {
         m_frSpeedPID.setReference(0, ControlType.kVoltage);
         m_flSpeedPID.setReference(0, ControlType.kVoltage);
         m_finished = true;
-      } else if(m_direction == DriveConstants.kLeft) { //if the goal is not reached, keep the pid loop running
-        m_frSpeedPID.setReference(outerSpeed * 5676 , ControlType.kVelocity);
-        m_flSpeedPID.setReference(innerSpeed * 5676 , ControlType.kVelocity);
-      } else if(m_direction == DriveConstants.kRight) {
-        m_frSpeedPID.setReference(innerSpeed * 5676 , ControlType.kVelocity);
-        m_flSpeedPID.setReference(outerSpeed * 5676 , ControlType.kVelocity);
+      } else {
+        m_flSpeedPID.setReference(leftSpeed * DriveConstants.kMaxRPM, ControlType.kVelocity);
+        m_frSpeedPID.setReference(rightSpeed * DriveConstants.kMaxRPM, ControlType.kVelocity);
       }
     }
 
@@ -113,15 +108,6 @@ public class TurnDegrees extends CommandBase {
     @Override
     public void end(boolean interrupted) {
       System.out.println("Done");
-/*          m_drive.getFrontLeftSparkMax().setInverted(false);
-          m_drive.getBackLeftSparkMax().setInverted(false);
-          m_drive.getFrontRightSparkMax().setInverted(false);
-          m_drive.getBackRightSparkMax().setInverted(false);
-*/
-      //m_drive.setCoast();
-      //invert the two right motors
-      m_drive.getFrontRightSparkMax().setInverted(false);
-      m_drive.getBackRightSparkMax().setInverted(false);
   
       m_drive.arcadeDrive(0, 0);
     }

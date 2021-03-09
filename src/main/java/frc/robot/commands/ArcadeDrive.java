@@ -37,7 +37,11 @@ public class ArcadeDrive extends CommandBase {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+
+      //Turn off integral control, which causes problems with quickly changing values
+      //m_drive.setPID_I(0);
+    }
   
     // Called once the command ends or is interrupted.
     @Override

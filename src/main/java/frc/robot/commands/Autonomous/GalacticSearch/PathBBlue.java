@@ -1,17 +1,19 @@
 package frc.robot.commands.Autonomous.GalacticSearch;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 
-public class Path2Red extends SequentialCommandGroup {
+public class PathBBlue extends SequentialCommandGroup {
 
     DriveSubsystem m_drive;
+    IntakeSubsystem m_intake;
 
-    public Path2Red(DriveSubsystem driveSubsystem) {
+    public PathBBlue(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
+            new StartIntake(m_intake),
             new DriveDistance(12, 0.5, m_drive)
         );
     }

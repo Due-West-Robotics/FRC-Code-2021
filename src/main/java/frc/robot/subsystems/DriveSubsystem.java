@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANEncoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -10,17 +9,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
-
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class DriveSubsystem extends SubsystemBase {
 
+  //define hardware objects
   private final AHRS ahrs = new AHRS(SerialPort.Port.kUSB);
   private final CANSparkMax motor1L = new CANSparkMax(DriveConstants.kLeftMotor1Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor2L = new CANSparkMax(DriveConstants.kLeftMotor2Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor1R = new CANSparkMax(DriveConstants.kRightMotor1Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor2R = new CANSparkMax(DriveConstants.kRightMotor2Port,CANSparkMax.MotorType.kBrushless);
+  private final CANEncoder encoderL = motor1L.getEncoder();
+  private final CANEncoder encoderR = motor1R.getEncoder();
 
   // The motors on the left side of the drive.
   private final SpeedControllerGroup m_leftMotors = new SpeedControllerGroup(motor1L);
@@ -31,15 +32,8 @@ public class DriveSubsystem extends SubsystemBase {
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
-  private final CANEncoder encoderL = motor1L.getEncoder();
-  private final CANEncoder encoderR = motor1R.getEncoder();
-
-  private double currentHeading;
-  private int completeRotations = 0;
-
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    currentHeading = getGyro();
     motor1L.setInverted(false);
     motor2L.setInverted(false);
     motor1R.setInverted(true);
@@ -50,12 +44,12 @@ public class DriveSubsystem extends SubsystemBase {
     motor2R.follow(getFrontRightSparkMax());
 
     //setup PID controllers
-    motor1L.getPIDController().setP(.00025);
-    motor1R.getPIDController().setP(.00025);
-    motor1L.getPIDController().setI(.0000003);
-    motor1R.getPIDController().setI(.0000003);
-    motor1L.getPIDController().setD(.0001);
-    motor1R.getPIDController().setD(.0001);
+    motor1L.getPIDController().setP(DriveConstants.kDriveDefaultP);
+    motor1R.getPIDController().setP(DriveConstants.kDriveDefaultP);
+    motor1L.getPIDController().setI(DriveConstants.kDriveDefaultI);
+    motor1R.getPIDController().setI(DriveConstants.kDriveDefaultI);
+    motor1L.getPIDController().setD(DriveConstants.kDriveDefaultD);
+    motor1R.getPIDController().setD(DriveConstants.kDriveDefaultD);
   }
 
   /**
@@ -66,17 +60,23 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void arcadeDrive(double fwd, double rot) {
 
+    //forward and turning variables for calculation
     double m_fwd = fwd;
     double m_rot = rot;
+
+    //final output power
     double leftMotorOutput = 0;
     double rightMotorOutput = 0;
+
+    //get the sign of each value (needed for squared sensitivity)
     double fwdSign = Math.signum(fwd);
     double rotSign = Math.signum(rot);
 
-    if(Math.abs(m_fwd) < 0.05) {
+    //add thresholds for very low power
+    if(Math.abs(m_fwd) < DriveConstants.kMinPower) {
       m_fwd = 0;
     }
-    if(Math.abs(m_rot) < 0.05) {
+    if(Math.abs(m_rot) < DriveConstants.kMinPower) {
       m_rot = 0;
     }
 
@@ -99,8 +99,8 @@ public class DriveSubsystem extends SubsystemBase {
     System.out.println("leftMotorOutput: " + leftMotorOutput);
     System.out.println("rightMotorOutput: " + rightMotorOutput);
 
-    motor1L.getPIDController().setReference(leftMotorOutput * 5676 , ControlType.kVelocity);
-    motor1R.getPIDController().setReference(rightMotorOutput * 5676 , ControlType.kVelocity);
+    motor1L.getPIDController().setReference(leftMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
+    motor1R.getPIDController().setReference(rightMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
@@ -184,21 +184,6 @@ public class DriveSubsystem extends SubsystemBase {
     return (ahrs.getAngle());
   }
 
-
-  //resets the number of accumulations
-  public void resetCompleteRotations() {
-    completeRotations = 0;
-  }
-
-  //returns the total gyro turn
-  public double getAcumulatedHeading() {
-    return getGyro() + 360 * completeRotations;
-  }
-
-  public int getCompleteRotations() {
-    return completeRotations;
-  }
-
   public void setBrake(){
     motor1L.setIdleMode(CANSparkMax.IdleMode.kBrake);
     motor1R.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -217,12 +202,6 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
 
       SmartDashboard.putNumber("encoder", getAverageEncoderDistance());
-
-      //compare old heading to current heading to check for complete rotations
-      double oldHeading = currentHeading;
-
-      //update the current heading
-      currentHeading = getGyro();
 
       //if the difference is greater than 180 degrees, add or subtract one from complete rotations *NOT USED WITH ONLY GYRO
       /*if(Math.abs(oldHeading - currentHeading) > 180) {

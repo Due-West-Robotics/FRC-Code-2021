@@ -79,15 +79,13 @@ public class TurnDegrees extends CommandBase {
        //get the initial heading
        m_initHeading = m_drive.getGyro();
 
-    //reset the accumulated gyro
-    m_drive.resetCompleteRotations();
   }
 
     @Override
     public void execute() {
 
       //get the current heading
-      m_accumulatedHeading = m_drive.getAcumulatedHeading();
+      m_accumulatedHeading = m_drive.getGyro();
 
       //if the goal is reached, stop and set the command to finished
       if(m_direction == DriveConstants.kRight && m_accumulatedHeading > m_targetHeading) {

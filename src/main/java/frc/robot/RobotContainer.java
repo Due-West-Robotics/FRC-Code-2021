@@ -130,6 +130,11 @@ public class RobotContainer {
     return myCommandTest;
   }
 
+  public Command testCommand(){
+    Command myTestCommand = new testcommand(m_robotDrive, m_cameraSubsystem);
+    return myTestCommand;
+  }
+
   public void resetGyro(){
     m_robotDrive.resetGyro();
   }

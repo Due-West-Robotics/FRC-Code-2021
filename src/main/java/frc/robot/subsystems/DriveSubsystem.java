@@ -66,8 +66,8 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void arcadeDrive(double fwd, double rot) {
 
-    double m_fwd = fwd;
-    double m_rot = rot;
+    double m_fwd = -fwd;
+    double m_rot = -rot;
     double leftMotorOutput = 0;
     double rightMotorOutput = 0;
     double fwdSign = Math.signum(fwd);

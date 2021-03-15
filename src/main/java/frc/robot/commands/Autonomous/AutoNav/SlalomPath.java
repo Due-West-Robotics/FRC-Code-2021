@@ -1,15 +1,15 @@
-package frc.robot.commands.Autonomous;
+package frc.robot.commands.Autonomous.AutoNav;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 
-public class CommandTest extends SequentialCommandGroup {
+public class SlalomPath extends SequentialCommandGroup {
 
     DriveSubsystem m_drive;
 
-    public CommandTest(DriveSubsystem driveSubsystem) {
+    public SlalomPath(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
             new DriveDistance(24, .4, m_drive),

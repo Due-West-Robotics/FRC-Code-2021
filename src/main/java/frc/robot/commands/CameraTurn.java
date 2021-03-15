@@ -42,7 +42,7 @@ public class CameraTurn extends CommandBase {
       if (m_camera.GetTargetArea() == 0 && m_camera.HasValidTarget()) {
         finished = true;
       }
-      else if (m_camera.GetTargetArea() >= 4 && m_camera.HasValidTarget()){
+      else if (m_camera.GetTargetArea() >= 5 && m_camera.HasValidTarget()){
         finished = true;
       }
       else {

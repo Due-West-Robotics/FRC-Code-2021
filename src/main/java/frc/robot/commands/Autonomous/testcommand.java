@@ -20,6 +20,8 @@ public class testcommand extends SequentialCommandGroup {
     m_drive = driveSubsystem;
     m_camera = cameraSubsystem;
 
-    addCommands(new CameraTurn(m_camera, m_drive));
+    addCommands(new CameraTurn(m_camera, m_drive),
+                new DriveDistance(-6, 0.65, m_drive));
+
   }
 }

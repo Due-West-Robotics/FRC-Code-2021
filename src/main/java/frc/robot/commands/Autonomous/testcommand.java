@@ -7,6 +7,7 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
@@ -15,13 +16,17 @@ public class testcommand extends SequentialCommandGroup {
 
   DriveSubsystem m_drive;
   CameraSubsystem m_camera;
+  IntakeSubsystem m_intake;
 
-  public testcommand(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem) {
+  public testcommand(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, IntakeSubsystem intakeSubsystem) {
     m_drive = driveSubsystem;
     m_camera = cameraSubsystem;
+    m_intake = intakeSubsystem;
 
     addCommands(new CameraTurn(m_camera, m_drive),
-                new DriveDistance(-6, 0.65, m_drive));
+                new DriveDistance(-24, 0.65, m_drive),
+                new StartIntake(m_intake),
+                new DriveDistance(60, 0.35, m_drive));
 
   }
 }

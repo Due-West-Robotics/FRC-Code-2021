@@ -130,7 +130,7 @@ public class RobotContainer {
   }
 
   public Command testCommand(){
-    Command myTestCommand = new testcommand(m_robotDrive, m_cameraSubsystem);
+    Command myTestCommand = new testcommand(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
     return myTestCommand;
   }
 

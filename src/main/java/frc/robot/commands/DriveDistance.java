@@ -52,12 +52,12 @@ public class DriveDistance extends CommandBase {
     else if (forward == false){
       m_drive.arcadeDrive(m_speed, 0);
     }
-    if (forward == true && Math.abs(m_drive.getAverageEncoderDistance()) >= m_distance){
+    if (forward == true && Math.abs(m_drive.getAverageEncoderDistance()) >= Math.abs(m_distance)){
       finished = true;
       m_drive.getFrontLeftSparkMax().getPIDController().setIAccum(0);
       m_drive.getFrontRightSparkMax().getPIDController().setIAccum(0);
     }
-    else if (forward == false && Math.abs(m_drive.getAverageEncoderDistance()) <= m_distance){
+    else if (forward == false && Math.abs(m_drive.getAverageEncoderDistance()) >= Math.abs(m_distance)){
       finished = true;
       m_drive.getFrontLeftSparkMax().getPIDController().setIAccum(0);
       m_drive.getFrontRightSparkMax().getPIDController().setIAccum(0);

@@ -128,6 +128,14 @@ public class RobotContainer {
     return mySlalomPath;
   }
 
+<<<<<<< Updated upstream
+=======
+  public Command testCommand(){
+    Command myTestCommand = new BouncePath(m_robotDrive);
+    return myTestCommand;
+  }
+
+>>>>>>> Stashed changes
   public void resetGyro(){
     m_robotDrive.resetGyro();
   }

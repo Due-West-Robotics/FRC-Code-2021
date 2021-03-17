@@ -52,8 +52,8 @@ public class DriveSubsystem extends SubsystemBase {
     //setup PID controllers
     motor1L.getPIDController().setP(.00025);
     motor1R.getPIDController().setP(.00025);
-    motor1L.getPIDController().setI(.0000003);
-    motor1R.getPIDController().setI(.0000003);
+    motor1L.getPIDController().setI(.000000);
+    motor1R.getPIDController().setI(.0000000);
     motor1L.getPIDController().setD(.0001);
     motor1R.getPIDController().setD(.0001);
   }

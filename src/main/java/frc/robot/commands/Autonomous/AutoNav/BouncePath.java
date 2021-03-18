@@ -32,7 +32,6 @@ public class BouncePath extends SequentialCommandGroup {
             new DriveDistance(-12, 0.5, m_drive),
             new TurnDegrees(m_drive, -45, .25, DriveConstants.kLeft, 28),
             new DriveDistance(-27, 0.5, m_drive)
-
         );
     }
 }

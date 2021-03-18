@@ -159,6 +159,11 @@ public class RobotContainer {
     return mySlalomPath;
   }
 
+  public Command testCommand(){
+    Command myTestCommand = new BouncePath(m_robotDrive);
+    return myTestCommand;
+  }
+
   public Command AutoTest() {
     Command myAutoTest = new AutoTest(m_robotDrive);
     return myAutoTest;

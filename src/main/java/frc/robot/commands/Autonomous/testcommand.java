@@ -24,9 +24,9 @@ public class testcommand extends SequentialCommandGroup {
     m_intake = intakeSubsystem;
 
     addCommands(new CameraTurn(m_camera, m_drive),
-                new DriveDistance(-24, 0.65, m_drive),
+                new DriveDistance(m_drive,-24, 0.65),
                 new StartIntake(m_intake),
-                new DriveDistance(60, 0.35, m_drive));
+                new DriveDistance(m_drive,60, 0.35));
 
   }
 }

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.commands.Autonomous.AutoNav.*;
 import frc.robot.commands.Autonomous.GalacticSearch.*;
-import frc.robot.commands.Autonomous.AutoTest;
+import frc.robot.commands.Autonomous.*;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /**
@@ -160,10 +160,10 @@ public class RobotContainer {
   }
 
   public Command testCommand(){
-    Command myTestCommand = new BouncePath(m_robotDrive);
+    Command myTestCommand = new testcommand(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
     return myTestCommand;
   }
-
+  
   public Command AutoTest() {
     Command myAutoTest = new AutoTest(m_robotDrive);
     return myAutoTest;

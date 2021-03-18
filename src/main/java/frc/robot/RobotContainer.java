@@ -48,7 +48,7 @@ public class RobotContainer {
   // The driver's controller
   GenericHID m_driverController = new Joystick(0);
 
-  private final Command m_arcadeDrive = new ArcadeDrive(m_robotDrive,
+  private final Command m_arcadeDrive = new JoystickDrive(m_robotDrive,
   () -> m_driverController.getY(GenericHID.Hand.kLeft),
   () -> m_driverController.getX(GenericHID.Hand.kRight));
 
@@ -64,7 +64,7 @@ public class RobotContainer {
     m_robotDrive.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
-        new ArcadeDrive(
+        new JoystickDrive(
             m_robotDrive,
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
@@ -119,6 +119,36 @@ public class RobotContainer {
     m_arcadeDrive.schedule();
   }
 
+  public Command Galactic1Chooser() {
+    Command pathABlue = new PathABlue(m_robotDrive);
+    Command pathARed = new PathARed(m_robotDrive);
+    Command defaultDrive = new DefaultDrive(m_robotDrive);
+    
+    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -4 && m_cameraSubsystem.GetTargetHorizontalOffset() < 4 && m_cameraSubsystem.GetTargetHorizontalOffset() != 0){
+      return pathARed;
+    }
+    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
+      return pathABlue;}
+    else {
+      return defaultDrive;
+    }
+  }
+
+  public Command Galactic2Chooser() {
+    Command pathBBlue = new PathBBlue(m_robotDrive);
+    Command pathBRed = new PathBRed(m_robotDrive);
+    Command defaultDrive = new DefaultDrive(m_robotDrive);
+
+    if (m_cameraSubsystem.GetTargetHorizontalOffset() < 0){
+      return pathBRed;
+    }
+    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
+      return pathBBlue;}
+    else {
+      return defaultDrive;
+    }
+  }
+
   public Command BarrelRacing(){
     Command BarrelRacing = new BarrelRacing(m_robotDrive);
     return BarrelRacing;
@@ -132,6 +162,11 @@ public class RobotContainer {
   public Command testCommand(){
     Command myTestCommand = new testcommand(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
     return myTestCommand;
+  }
+  
+  public Command AutoTest() {
+    Command myAutoTest = new AutoTest(m_robotDrive);
+    return myAutoTest;
   }
 
   public void resetGyro(){

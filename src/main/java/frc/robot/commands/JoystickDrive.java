@@ -2,8 +2,9 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -11,10 +12,11 @@ import frc.robot.subsystems.DriveSubsystem;
  * explicitly for pedagogical purposes - actual code should inline a command this simple with {@link
  * edu.wpi.first.wpilibj2.command.RunCommand}.
  */
-public class ArcadeDrive extends CommandBase {
+public class JoystickDrive extends CommandBase {
   private final DriveSubsystem m_drive;
   private final DoubleSupplier m_forward;
   private final DoubleSupplier m_rotation;
+  private double m_fwd, m_rot;
 
   /**
    * Creates a new DefaultDrive.
@@ -23,7 +25,7 @@ public class ArcadeDrive extends CommandBase {
    * @param forward  The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public ArcadeDrive(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
+  public JoystickDrive(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
     m_drive = subsystem;
     m_forward = forward;
     m_rotation = rotation;
@@ -32,7 +34,36 @@ public class ArcadeDrive extends CommandBase {
 
   @Override
   public void execute() {
-    m_drive.arcadeDrive(m_forward.getAsDouble(), m_rotation.getAsDouble());
+
+    //get the sign of each value (needed for squared sensitivity)
+    double fwdSign = Math.signum(-m_forward.getAsDouble());
+    double rotSign = Math.signum(m_rotation.getAsDouble());
+
+    m_fwd = Math.pow(m_forward.getAsDouble(),2);
+    m_rot = Math.pow(m_rotation.getAsDouble(),2);
+  
+
+    //add thresholds for very low power
+    if(Math.abs(m_fwd) < DriveConstants.kMinPower) {
+      m_fwd = 0;
+    }
+    if(Math.abs(m_rot) < DriveConstants.kMinPower) {
+      m_rot = 0;
+    }
+    System.out.println("direction" + fwdSign);
+    if(fwdSign < 0) {
+      m_fwd *= -1;
+    }
+    if(rotSign < 0) {
+      m_rot *= -1;
+    }
+    
+    if(Math.abs(m_fwd) + Math.abs(m_rot) < DriveConstants.kMinPower) {
+      m_drive.resetIAccum();
+    }
+    m_drive.arcadeDrive(m_fwd, 0);
+
+    SmartDashboard.putNumber("Target Speed", m_fwd);
   }
 
     // Called when the command is initially scheduled.

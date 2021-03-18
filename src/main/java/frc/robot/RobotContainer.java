@@ -48,7 +48,7 @@ public class RobotContainer {
   // The driver's controller
   GenericHID m_driverController = new Joystick(0);
 
-  private final Command m_arcadeDrive = new ArcadeDrive(m_robotDrive,
+  private final Command m_arcadeDrive = new JoystickDrive(m_robotDrive,
   () -> m_driverController.getY(GenericHID.Hand.kLeft),
   () -> m_driverController.getX(GenericHID.Hand.kRight));
 
@@ -64,7 +64,7 @@ public class RobotContainer {
     m_robotDrive.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
-        new ArcadeDrive(
+        new JoystickDrive(
             m_robotDrive,
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));

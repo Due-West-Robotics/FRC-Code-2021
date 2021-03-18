@@ -34,30 +34,30 @@ public final class Constants {
       //left and right
       public static final int kLeft = -1;
       public static final int kRight = 1;
+
+      //max RPM of drive motors
+      public static final int kMaxRPM = 5676;
   
       //distance calculation
       public static final int kEncoderCPR = 1024;
       public static final double kGearRatio = 1/10.75;
       public static final double kWheelDiameterInches = 6;
       public static final double kEncoderDistancePerPulse = (kWheelDiameterInches * Math.PI) / (double) kEncoderCPR;
-
-      //max RPM of drive motors
-      public static final int kMaxRPM = 5676;
+      public static final double kMaxRobotSpeed = (kMaxRPM/60) * kGearRatio * (kWheelDiameterInches * Math.PI);
       
       //drive pid
-      public static final double kDefaultP = .00025;
-      public static final double kDefaultI = .0000003;
+      public static final double kDefaultP = .0005;
+      public static final double kDefaultI = .000001;
       public static final double kDefaultD = .0001;
 
       //the zone in which I is used in the drive PID controller
-      public static final double kIZone = (0.05 * kMaxRPM);
+      //public static final double kIZone = (0.1 * kMaxRPM);
 
-
-      //max acceleration of robot, in ft/sec^2 (-1 = infinite)
-      public static final double kMaxAccel = -1;
+      //max acceleration of robot, in ft/sec/sec
+      public static final double kMaxAccel = 5;
 
       //motor power below this is considered negligible and not applied
-      public static final double kMinPower = 0.05;
+      public static final double kMinPower = 0.01;
     }
   
     public static final class HatchConstants {

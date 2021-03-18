@@ -12,6 +12,6 @@ public class AutoTest extends SequentialCommandGroup {
     public AutoTest(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
-            new TurnDegrees(m_drive, 90, -.3, DriveConstants.kLeft, 0));
+            new DriveDistance(m_drive, 120, 0.5));
     }
 }

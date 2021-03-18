@@ -37,8 +37,8 @@ public class DriveSubsystem extends SubsystemBase {
     motor2R.follow(getFrontRightSparkMax());
 
     //setup PID controller
-    motor1L.getPIDController().setIZone(DriveConstants.kIZone);
-    motor1R.getPIDController().setIZone(DriveConstants.kIZone);
+    //motor1L.getPIDController().setIZone(DriveConstants.kIZone);
+    //motor1R.getPIDController().setIZone(DriveConstants.kIZone);
     updatePID();
     
   }
@@ -68,26 +68,8 @@ public class DriveSubsystem extends SubsystemBase {
     double leftMotorOutput = 0;
     double rightMotorOutput = 0;
 
-    //get the sign of each value (needed for squared sensitivity)
-    double fwdSign = Math.signum(fwd);
-    double rotSign = Math.signum(rot);
-
-    //add thresholds for very low power
-    if(Math.abs(m_fwd) < DriveConstants.kMinPower) {
-      m_fwd = 0;
-    }
-    if(Math.abs(m_rot) < DriveConstants.kMinPower) {
-      m_rot = 0;
-    }
-
-    m_fwd = Math.pow(m_fwd,2);
-    m_rot = Math.pow(m_rot,2);
-
-    m_fwd *= fwdSign;
-    m_rot *= rotSign;
-
-    leftMotorOutput -= m_fwd;
-    rightMotorOutput -= m_fwd;
+    leftMotorOutput += m_fwd;
+    rightMotorOutput += m_fwd;
 
     leftMotorOutput += m_rot;
     rightMotorOutput -= m_rot;
@@ -217,6 +199,8 @@ public class DriveSubsystem extends SubsystemBase {
 
       SmartDashboard.putNumber("encoderL", getLeftEncoder().getPosition());
       SmartDashboard.putNumber("encoderR", getRightEncoder().getPosition());
+
+      SmartDashboard.putNumber("Current Speed", getRightEncoder().getVelocity() / DriveConstants.kMaxRPM);
 
       //if the difference is greater than 180 degrees, add or subtract one from complete rotations *NOT USED WITH ONLY GYRO
       /*if(Math.abs(oldHeading - currentHeading) > 180) {

@@ -12,7 +12,7 @@ public class BouncePath extends SequentialCommandGroup {
     public BouncePath(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
-            new DriveDistance(12, 0.5, m_drive)
+            new DriveDistance(m_drive, 12, 0.5)
         );
     }
 }

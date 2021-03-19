@@ -32,8 +32,10 @@ public class TurnDegrees extends CommandBase {
    * Creates a new DefaultDrive.
    *
    * @param subsystem The drive subsystem this command wil run on.
-   * @param degrees   The control input for driving forwards/backwards
-   * @param speed     The control input for turning
+   * @param degrees The control input for driving forwards/backwards
+   * @param speed  The control input for turning
+   * @param direction The direction of the turn
+   * @param radius The radius of the turn
    */
   public TurnDegrees(DriveSubsystem subsystem, double degrees, double speed, int direction, double radius) {
 

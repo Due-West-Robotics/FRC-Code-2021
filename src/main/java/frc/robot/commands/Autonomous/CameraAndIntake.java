@@ -12,13 +12,13 @@ import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 
-public class testcommand extends SequentialCommandGroup {
+public class CameraAndIntake extends SequentialCommandGroup {
 
   DriveSubsystem m_drive;
   CameraSubsystem m_camera;
   IntakeSubsystem m_intake;
 
-  public testcommand(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, IntakeSubsystem intakeSubsystem) {
+  public CameraAndIntake(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, IntakeSubsystem intakeSubsystem) {
     m_drive = driveSubsystem;
     m_camera = cameraSubsystem;
     m_intake = intakeSubsystem;

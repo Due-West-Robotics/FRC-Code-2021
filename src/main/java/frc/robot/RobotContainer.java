@@ -159,8 +159,8 @@ public class RobotContainer {
     return mySlalomPath;
   }
 
-  public Command testCommand(){
-    Command myTestCommand = new testcommand(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
+  public Command CameraAndIntake(){
+    Command myTestCommand = new CameraAndIntake(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
     return myTestCommand;
   }
   

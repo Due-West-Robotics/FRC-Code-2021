@@ -13,14 +13,14 @@ public class PathARed extends SequentialCommandGroup {
     public PathARed(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
+            new DriveDistance(m_drive,-24, 0.65),
             new StartIntake(m_intake),
-            new DriveDistance(m_drive, 85, 0.5),
+            new DriveDistance(m_drive,94, 0.35),
+            new TurnDegrees(m_drive, 57.313, 0.5, DriveConstants.kRight, 21.176),
+            new TurnDegrees(m_drive, 196, 0.5, DriveConstants.kRight, 11),
+            new DriveDistance(m_drive, 94.802, 0.5),
             new TurnDegrees(m_drive, 90, 0.5, DriveConstants.kRight, 0),
-            new DriveDistance(m_drive, 30, 0.5),
-            new TurnDegrees(m_drive, 180, 0.5, DriveConstants.kLeft, 15),
-            new DriveDistance(m_drive, 90, 0.5),
-            new TurnDegrees(m_drive, 90, 0.5, DriveConstants.kRight, 0),
-            new DriveDistance(m_drive, 150, 0.75)
+            new DriveDistance(m_drive, 155, 0.75)
         );
     }
 }

@@ -20,9 +20,9 @@ public class BarrelRacing extends SequentialCommandGroup {
     new DriveDistance(m_drive, 95, 0.5),
     new TurnDegrees(m_drive, 360, 0.5,DriveConstants.kRight,28.5),
     new DriveDistance(m_drive, 100, 0.5),
-    new TurnDegrees(m_drive, 337.5, 0.5,DriveConstants.kRight,33),
-    new DriveDistance(m_drive, 52, 0.5),
-    new TurnDegrees(m_drive, 270, 0.5,DriveConstants.kRight,46),
+    new TurnDegrees(m_drive, 337.5, 0.5,DriveConstants.kLeft,33.049),
+    new DriveDistance(m_drive, 84.848, 0.5),
+    new TurnDegrees(m_drive, 224.37, 0.5,DriveConstants.kLeft,32.116),
     new DriveDistance(m_drive, 245, 0.8));
     }
 }

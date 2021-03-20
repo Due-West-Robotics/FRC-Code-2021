@@ -17,9 +17,9 @@ public class PathARed extends SequentialCommandGroup {
             new StartIntake(m_intake),
             new DriveDistance(m_drive,94, 0.35),
             new TurnDegrees(m_drive, 57.313, 0.5, DriveConstants.kRight, 21.176),
-            new TurnDegrees(m_drive, 196, 0.5, DriveConstants.kRight, 11),
-            new DriveDistance(m_drive, 94.802, 0.5),
-            new TurnDegrees(m_drive, 90, 0.5, DriveConstants.kRight, 0),
+            new TurnDegrees(m_drive, 187.164, 0.5, DriveConstants.kRight, 11),
+            new DriveDistance(m_drive, 93.675, 0.5),
+            new TurnDegrees(m_drive, 57.581, 0.5, DriveConstants.kRight, 0),
             new DriveDistance(m_drive, 155, 0.75)
         );
     }

@@ -54,6 +54,41 @@ public class RobotContainer {
 
   private final Command m_defaultDrive = new DefaultDrive(m_robotDrive);
 
+  private final Command myBarrelRacing = new BarrelRacing(m_robotDrive);
+  private final Command myBouncePath = new BouncePath(m_robotDrive);
+  private final Command mySlalomPath = new SlalomPath(m_robotDrive);
+  private final Command myTestCommand = new CameraAndIntake(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
+
+  private Command GalacticAChooser() {
+    Command pathABlue = new PathABlue(m_robotDrive);
+    Command pathARed = new PathARed(m_robotDrive);
+    Command defaultDrive = new DefaultDrive(m_robotDrive);
+    
+    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -4 && m_cameraSubsystem.GetTargetHorizontalOffset() < 4 && m_cameraSubsystem.GetTargetHorizontalOffset() != 0){
+      return pathARed;
+    }
+    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
+      return pathABlue;}
+    else {
+      return defaultDrive;
+    }
+  }
+
+  private Command GalacticBChooser() {
+    Command pathBBlue = new PathBBlue(m_robotDrive);
+    Command pathBRed = new PathBRed(m_robotDrive);
+    Command defaultDrive = new DefaultDrive(m_robotDrive);
+
+    if (m_cameraSubsystem.GetTargetHorizontalOffset() < 0){
+      return pathBRed;
+    }
+    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
+      return pathBBlue;}
+    else {
+      return defaultDrive;
+    }
+  }
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -68,7 +103,6 @@ public class RobotContainer {
             m_robotDrive,
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
-  }
 
     /*m_intakeSubsystem.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
@@ -76,14 +110,17 @@ public class RobotContainer {
 
       new DefaultIntake(
           m_intakeSubsystem));
-
+    */
 
    // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Default", m_arcadeDrive);
-    //m_chooser.addOption("Complex Auto", m_arcadeDrive);
+    m_chooser.setDefaultOption("Barrel Racing", myBarrelRacing);
+    m_chooser.addOption("Bounce Path", myBouncePath);
+    m_chooser.addOption("Slalom Path", mySlalomPath);
+    m_chooser.addOption("Galactic Search Path A", GalacticAChooser());
+    m_chooser.addOption("Galactic Search Path B", GalacticBChooser());
 
     //Put the chooser on the dashboard
-    Shuffleboard.getTab("Teleop").add(m_chooser);
+    Shuffleboard.getTab("Autonomous").add(m_chooser);
   }
 
   /**
@@ -102,7 +139,7 @@ public class RobotContainer {
 
 
 
-  /*public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
     return m_chooser.getSelected();
   }
    /**
@@ -111,62 +148,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
 
-  public Command getTeleopCommand() {
-    return m_chooser.getSelected();
-  }
-
   public void arcadeDrive() {
     m_arcadeDrive.schedule();
-  }
-
-  public Command Galactic1Chooser() {
-    Command pathABlue = new PathABlue(m_robotDrive);
-    Command pathARed = new PathARed(m_robotDrive);
-    Command defaultDrive = new DefaultDrive(m_robotDrive);
-    
-    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -4 && m_cameraSubsystem.GetTargetHorizontalOffset() < 4 && m_cameraSubsystem.GetTargetHorizontalOffset() != 0){
-      return pathARed;
-    }
-    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
-      return pathABlue;}
-    else {
-      return defaultDrive;
-    }
-  }
-
-  public Command Galactic2Chooser() {
-    Command pathBBlue = new PathBBlue(m_robotDrive);
-    Command pathBRed = new PathBRed(m_robotDrive);
-    Command defaultDrive = new DefaultDrive(m_robotDrive);
-
-    if (m_cameraSubsystem.GetTargetHorizontalOffset() < 0){
-      return pathBRed;
-    }
-    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
-      return pathBBlue;}
-    else {
-      return defaultDrive;
-    }
-  }
-
-  public Command BarrelRacing(){
-    Command BarrelRacing = new BarrelRacing(m_robotDrive);
-    return BarrelRacing;
-  }
-
-  public Command slalomPath() {
-    Command mySlalomPath = new SlalomPath(m_robotDrive);
-    return mySlalomPath;
-  }
-
-  public Command CameraAndIntake(){
-    Command myTestCommand = new CameraAndIntake(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
-    return myTestCommand;
-  }
-  
-  public Command AutoTest() {
-    Command myAutoTest = new AutoTest(m_robotDrive);
-    return myAutoTest;
   }
 
   public void resetGyro(){

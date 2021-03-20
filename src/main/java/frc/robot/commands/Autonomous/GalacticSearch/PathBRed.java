@@ -13,8 +13,8 @@ public class PathBRed extends SequentialCommandGroup {
     public PathBRed(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
-            new StartIntake(m_intake),
-            new DriveDistance(m_drive, 12, 0.5)
+            new DriveDistance(m_drive,-24, 0.65),
+            new StartIntake(m_intake)
         );
     }
 }

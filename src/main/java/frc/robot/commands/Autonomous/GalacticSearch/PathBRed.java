@@ -26,7 +26,7 @@ public class PathBRed extends SequentialCommandGroup {
             new DriveDistance(m_drive,60, 0.5),
             new TurnDegrees(m_drive, 90, 0.5, DriveConstants.kRight, 21.622),
             new DriveDistance(m_drive,105, 0.75),
-            new StopIntake(m_intake);
+            new StopIntake(m_intake)
         );
     }
 }

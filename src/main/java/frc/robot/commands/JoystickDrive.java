@@ -61,7 +61,7 @@ public class JoystickDrive extends CommandBase {
     if(Math.abs(m_fwd) + Math.abs(m_rot) < DriveConstants.kMinPower) {
       m_drive.resetIAccum();
     }
-    m_drive.arcadeDrive(m_fwd, 0);
+    m_drive.arcadeDrive(m_fwd, m_rot);
 
     SmartDashboard.putNumber("Target Speed", m_fwd);
   }

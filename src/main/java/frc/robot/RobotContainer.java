@@ -116,8 +116,8 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Barrel Racing", myBarrelRacing);
     m_chooser.addOption("Bounce Path", myBouncePath);
     m_chooser.addOption("Slalom Path", mySlalomPath);
-    m_chooser.addOption("Galactic Search Path A", GalacticAChooser());
-    m_chooser.addOption("Galactic Search Path B", GalacticBChooser());
+    //m_chooser.addOption("Galactic Search Path A", GalacticAChooser);
+    //m_chooser.addOption("Galactic Search Path B", GalacticBChooser);
 
     //Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
@@ -170,5 +170,9 @@ public class RobotContainer {
 
   public void resetEncoders() {
     m_robotDrive.resetEncoders();
+  }
+  public Command testCommand() {
+    Command testCommand = new AutoTest(m_robotDrive);
+    return testCommand;
   }
 }

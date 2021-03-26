@@ -10,8 +10,9 @@ public class PathBRed extends SequentialCommandGroup {
     DriveSubsystem m_drive;
     IntakeSubsystem m_intake;
 
-    public PathBRed(DriveSubsystem driveSubsystem) {
+    public PathBRed(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
         m_drive = driveSubsystem;
+        m_intake = intakeSubsystem;
         addCommands(
             new DriveDistance(m_drive,-24, 0.65),
             new StartIntake(m_intake),

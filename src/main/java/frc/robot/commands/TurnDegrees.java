@@ -7,7 +7,6 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.ControlType;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants.*;
-
 /**
  * A command to drive the robot with joystick input (passed in as {@link DoubleSupplier}s). Written
  * explicitly for pedagogical purposes - actual code should inline a command this simple with {@link
@@ -25,8 +24,9 @@ public class TurnDegrees extends CommandBase {
   private CANPIDController m_frSpeedPID;
   private double outerSpeed;
   private double innerSpeed;
-  private double rightSpeed;
-  private double leftSpeed;
+  private double targetRSpeed;
+  private double targetLSpeed;
+  private double m_endPower = 0;
 
   /**
    * Creates a new DefaultDrive.
@@ -52,6 +52,22 @@ public class TurnDegrees extends CommandBase {
     addRequirements(m_drive);
   }
 
+  public TurnDegrees(DriveSubsystem subsystem, double degrees, double speed, int direction, double radius, double endPower) {
+
+    //setup method variables
+    m_drive = subsystem;
+    m_targetHeading = degrees;
+    m_speed = speed;
+    m_direction = direction;
+    m_turnRadius = radius;
+    m_flSpeedPID = m_drive.getFrontLeftSparkMax().getPIDController();
+    m_frSpeedPID = m_drive.getFrontRightSparkMax().getPIDController();
+    m_endPower = endPower;
+
+    //add drive requirements
+    addRequirements(m_drive);
+  }
+
   @Override
   public void initialize() {
 
@@ -68,11 +84,11 @@ public class TurnDegrees extends CommandBase {
     System.out.println("innerSpeed: " + innerSpeed);
 
     if(m_direction == DriveConstants.kLeft) { 
-      rightSpeed = outerSpeed;
-      leftSpeed = innerSpeed;
+      targetRSpeed = outerSpeed;
+      targetLSpeed = innerSpeed;
     } else if(m_direction == DriveConstants.kRight) {
-      rightSpeed = innerSpeed;
-      leftSpeed = outerSpeed;
+      targetRSpeed = innerSpeed;
+      targetLSpeed = outerSpeed;
     }
 
     if(m_speed < 0) {
@@ -81,36 +97,36 @@ public class TurnDegrees extends CommandBase {
 
   }
 
-    @Override
-    public void execute() {
+  @Override
+  public void execute() {
 
-      //get the current heading
-      m_accumulatedHeading = m_drive.getGyro();
+    //get the current heading
+    m_accumulatedHeading = m_drive.getGyro();
 
-      //if the goal is reached, stop and set the command to finished
-      if(m_direction == DriveConstants.kRight && m_accumulatedHeading > m_targetHeading) {
-        m_frSpeedPID.setReference(0, ControlType.kVoltage);
-        m_flSpeedPID.setReference(0, ControlType.kVoltage);
-        m_finished = true;
-      }else if(m_direction == DriveConstants.kLeft && m_accumulatedHeading < m_targetHeading) {
-        m_frSpeedPID.setReference(0, ControlType.kVoltage);
-        m_flSpeedPID.setReference(0, ControlType.kVoltage);
-        m_finished = true;
-      } else {
-        m_flSpeedPID.setReference(leftSpeed * DriveConstants.kMaxRPM, ControlType.kVelocity);
-        m_frSpeedPID.setReference(rightSpeed * DriveConstants.kMaxRPM, ControlType.kVelocity);
-      }
+    //if the goal is reached, stop and set the command to finished
+    if(m_direction == DriveConstants.kRight && m_accumulatedHeading > m_targetHeading) {
+      m_frSpeedPID.setReference(m_endPower, ControlType.kVoltage);
+      m_flSpeedPID.setReference(m_endPower, ControlType.kVoltage);
+      m_finished = true;
+    }else if(m_direction == DriveConstants.kLeft && m_accumulatedHeading < m_targetHeading) {
+      m_frSpeedPID.setReference(m_endPower, ControlType.kVoltage);
+      m_flSpeedPID.setReference(m_endPower, ControlType.kVoltage);
+      m_finished = true;
+    } else {
+      m_flSpeedPID.setReference(targetLSpeed * DriveConstants.kMaxRPM, ControlType.kVelocity);
+      m_frSpeedPID.setReference(targetRSpeed * DriveConstants.kMaxRPM, ControlType.kVelocity);
     }
+  }
 
-    @Override
-    public boolean isFinished() {
-      return m_finished;
-    }
+  @Override
+  public boolean isFinished() {
+    return m_finished;
+  }
 
-    @Override
-    public void end(boolean interrupted) {
-      System.out.println("Done");
-  
-      //m_drive.arcadeDrive(0, 0);
-    }
+  @Override
+  public void end(boolean interrupted) {
+    System.out.println("Done");
+
+    //m_drive.arcadeDrive(0, 0);
+  }
 }

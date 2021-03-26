@@ -194,6 +194,11 @@ public class DriveSubsystem extends SubsystemBase {
     motor1R.getPIDController().setIAccum(0);
   }
 
+  //get the average speed of the motors
+  public double getVelocity() {
+    return (getRightEncoder().getVelocity() + getRightEncoder().getVelocity()) / 2;
+  }
+
   @Override
     public void periodic() {
 

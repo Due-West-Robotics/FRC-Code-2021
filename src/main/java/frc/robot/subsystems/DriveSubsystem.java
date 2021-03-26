@@ -77,6 +77,8 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotorOutput = MathUtil.clamp(leftMotorOutput, -1.0, 1.0);
     rightMotorOutput = MathUtil.clamp(rightMotorOutput, -1.0, 1.0);
 
+    setCoast();
+
     motor1L.getPIDController().setReference(leftMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
     motor1R.getPIDController().setReference(rightMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
   }

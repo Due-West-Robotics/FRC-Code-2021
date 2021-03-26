@@ -50,7 +50,6 @@ public class JoystickDrive extends CommandBase {
     if(Math.abs(m_rot) < DriveConstants.kMinPower) {
       m_rot = 0;
     }
-    System.out.println("direction" + fwdSign);
     if(fwdSign < 0) {
       m_fwd *= -1;
     }

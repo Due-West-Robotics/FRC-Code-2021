@@ -10,16 +10,17 @@ public class PathARed extends SequentialCommandGroup {
     DriveSubsystem m_drive;
     IntakeSubsystem m_intake;
 
-    public PathARed(DriveSubsystem driveSubsystem) {
+    public PathARed(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
         m_drive = driveSubsystem;
+        m_intake = intakeSubsystem;
         addCommands(
             new DriveDistance(m_drive,-24, 0.65),
             new StartIntake(m_intake),
             new DriveDistance(m_drive,94, 0.35),
-            new TurnDegrees(m_drive, 57.313, 0.5, DriveConstants.kRight, 21.176),
-            new TurnDegrees(m_drive, 187.164, 0.5, DriveConstants.kRight, 11),
+            new TurnDegrees(m_drive, 65.374, 0.5, DriveConstants.kRight, 21.176),
+            new TurnDegrees(m_drive, 252.538, 0.5, DriveConstants.kRight, 11),
             new DriveDistance(m_drive, 93.675, 0.5),
-            new TurnDegrees(m_drive, 57.581, 0.5, DriveConstants.kRight, 0),
+            new TurnDegrees(m_drive, 360, 0.5, DriveConstants.kRight, 0),
             new DriveDistance(m_drive, 155, 0.75)
         );
     }

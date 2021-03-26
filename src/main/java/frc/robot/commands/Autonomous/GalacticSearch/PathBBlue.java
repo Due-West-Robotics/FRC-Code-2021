@@ -10,8 +10,9 @@ public class PathBBlue extends SequentialCommandGroup {
     DriveSubsystem m_drive;
     IntakeSubsystem m_intake;
 
-    public PathBBlue(DriveSubsystem driveSubsystem) {
+    public PathBBlue(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
         m_drive = driveSubsystem;
+        m_intake = intakeSubsystem;
         addCommands(
             new DriveDistance(m_drive,-24, 0.65),
             new StartIntake(m_intake),

@@ -60,14 +60,14 @@ public class RobotContainer {
   private final Command myTestCommand = new AutoTest(m_robotDrive);
 
   private Command GalacticAChooser() {
-    Command pathABlue = new PathABlue(m_robotDrive);
-    Command pathARed = new PathARed(m_robotDrive);
+    Command pathABlue = new PathABlue(m_robotDrive, m_intakeSubsystem);
+    Command pathARed = new PathARed(m_robotDrive, m_intakeSubsystem);
     Command defaultDrive = new DefaultDrive(m_robotDrive);
     
-    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -4 && m_cameraSubsystem.GetTargetHorizontalOffset() < 4 && m_cameraSubsystem.GetTargetHorizontalOffset() != 0){
+    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -4 && m_cameraSubsystem.GetTargetHorizontalOffset() < 4 && m_cameraSubsystem.HasValidTarget()){
       return pathARed;
     }
-    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
+    else if (m_cameraSubsystem.GetTargetArea() > 8) {
       return pathABlue;}
     else {
       return defaultDrive;
@@ -75,14 +75,14 @@ public class RobotContainer {
   }
 
   private Command GalacticBChooser() {
-    Command pathBBlue = new PathBBlue(m_robotDrive);
-    Command pathBRed = new PathBRed(m_robotDrive);
+    Command pathBBlue = new PathBBlue(m_robotDrive, m_intakeSubsystem);
+    Command pathBRed = new PathBRed(m_robotDrive, m_intakeSubsystem);
     Command defaultDrive = new DefaultDrive(m_robotDrive);
 
     if (m_cameraSubsystem.GetTargetHorizontalOffset() < 0){
       return pathBRed;
     }
-    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
+    else if (m_cameraSubsystem.GetTargetArea() > 8) {
       return pathBBlue;}
     else {
       return defaultDrive;

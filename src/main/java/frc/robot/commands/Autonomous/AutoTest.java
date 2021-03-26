@@ -12,6 +12,7 @@ public class AutoTest extends SequentialCommandGroup {
     public AutoTest(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(
-            new DriveDistance(m_drive, 120, 0.5));
+            new DriveDistance(m_drive, 96, .75),
+            new DriveDistance(m_drive, -96, .75));
     }
 }

@@ -46,18 +46,18 @@ public final class Constants {
       public static final double kMaxRobotSpeed = (kMaxRPM/60) * kGearRatio * (kWheelDiameterInches * Math.PI);
       
       //drive pid
-      public static final double kDefaultP = .0005;
-      public static final double kDefaultI = .000001;
+      public static final double kDefaultP = .00038;
+      public static final double kDefaultI = .0000011;
       public static final double kDefaultD = .0001;
 
       //the zone in which I is used in the drive PID controller
       //public static final double kIZone = (0.1 * kMaxRPM);
 
       //max acceleration of robot, in ft/sec/sec
-      public static final double kMaxAccel = 5;
+      public static final double kMaxAccel = 12;
 
       //motor power below this is considered negligible and not applied
-      public static final double kMinPower = 0.01;
+      public static final double kMinPower = 0.005;
     }
   
     public static final class HatchConstants {

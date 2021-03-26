@@ -57,7 +57,7 @@ public class RobotContainer {
   private final Command myBarrelRacing = new BarrelRacing(m_robotDrive);
   private final Command myBouncePath = new BouncePath(m_robotDrive);
   private final Command mySlalomPath = new SlalomPath(m_robotDrive);
-  private final Command myTestCommand = new CameraAndIntake(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
+  private final Command myTestCommand = new AutoTest(m_robotDrive);
 
   private Command GalacticAChooser() {
     Command pathABlue = new PathABlue(m_robotDrive);
@@ -116,8 +116,9 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Barrel Racing", myBarrelRacing);
     m_chooser.addOption("Bounce Path", myBouncePath);
     m_chooser.addOption("Slalom Path", mySlalomPath);
-    //m_chooser.addOption("Galactic Search Path A", GalacticAChooser);
-    //m_chooser.addOption("Galactic Search Path B", GalacticBChooser);
+    m_chooser.addOption("AutoTest", myTestCommand);
+    m_chooser.addOption("Galactic Search Path A", GalacticAChooser());
+    m_chooser.addOption("Galactic Search Path B", GalacticBChooser());
 
     //Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);

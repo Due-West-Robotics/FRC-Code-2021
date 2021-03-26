@@ -102,9 +102,8 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
 
-    Command commandTest = m_robotContainer.getAutonomousCommand();
+    Command commandTest = m_robotContainer.testCommand();
     
-
     // schedule the autonomous command (example)
     if (commandTest != null) {
       System.out.println("command scheduled");

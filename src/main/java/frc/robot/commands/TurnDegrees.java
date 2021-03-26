@@ -47,7 +47,7 @@ public class TurnDegrees extends CommandBase {
     m_turnRadius = radius;
     m_flSpeedPID = m_drive.getFrontLeftSparkMax().getPIDController();
     m_frSpeedPID = m_drive.getFrontRightSparkMax().getPIDController();
-
+    
     //add drive requirements
     addRequirements(m_drive);
   }
@@ -111,6 +111,6 @@ public class TurnDegrees extends CommandBase {
     public void end(boolean interrupted) {
       System.out.println("Done");
   
-      m_drive.arcadeDrive(0, 0);
+      //m_drive.arcadeDrive(0, 0);
     }
 }

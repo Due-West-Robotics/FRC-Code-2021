@@ -40,7 +40,7 @@ public class JoystickDrive extends CommandBase {
     double rotSign = Math.signum(m_rotation.getAsDouble());
 
     m_fwd = Math.pow(m_forward.getAsDouble(),2);
-    m_rot = Math.pow(m_rotation.getAsDouble(),2);
+    m_rot = Math.pow(m_rotation.getAsDouble(),4);
   
 
     //add thresholds for very low power

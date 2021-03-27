@@ -17,7 +17,7 @@ public class BarrelRacing extends SequentialCommandGroup {
   public BarrelRacing(DriveSubsystem driveSubsystem) {
     m_drive = driveSubsystem;
     addCommands(
-    new DriveDistance(m_drive, 85, 0.5),
+    new DriveDistance(m_drive, 80, 0.5),
     new TurnDegrees(m_drive, 360, 0.10,DriveConstants.kRight,30),
     new DriveDistance(m_drive, 100, 0.5),
     new TurnDegrees(m_drive, 41.41, 0.10,DriveConstants.kLeft,30),

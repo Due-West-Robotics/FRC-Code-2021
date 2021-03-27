@@ -72,7 +72,6 @@ public class TurnDegrees extends CommandBase {
   public void initialize() {
 
     System.out.println("Starting");
-    m_drive.setBrake();
     
     //calculate the motor speeds required to turn a specific radius
     double robotRadius = .5*DriveConstants.kDriveWidth;

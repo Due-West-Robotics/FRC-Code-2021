@@ -44,12 +44,14 @@ public class DriveDistance extends CommandBase {
     addRequirements(m_drive);
     m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(m_maxSpeed * DriveConstants.kMaxRobotSpeed, (DriveConstants.kMaxAccel*12)),
                                                 new TrapezoidProfile.State(m_distance, endPower * DriveConstants.kMaxRobotSpeed),
-                                                new TrapezoidProfile.State(0, m_drive.getVelocity()));
+                                                new TrapezoidProfile.State(0, (m_drive.getVelocity() / DriveConstants.kMaxRPM) * DriveConstants.kMaxRobotSpeed));
   }
 
   @Override
   public void initialize() {
     m_drive.resetEncoders();
+    System.out.println("\n\nSPEED RIGHT NOW: " + m_drive.getVelocity());
+    System.out.println("Total Time: " + m_profile.totalTime());
     if (m_distance > 0) {
       if(m_maxSpeed < 0) {
         m_maxSpeed *= -1;
@@ -71,9 +73,8 @@ public class DriveDistance extends CommandBase {
   public void execute() {
     m_targetSpeed = m_profile.calculate(m_timer.get()).velocity / DriveConstants.kMaxRobotSpeed;
     System.out.println("timer" + m_timer.get());
-    System.out.println("target time" + m_profile.totalTime());
     System.out.println("target speed" + m_targetSpeed);
-    System.out.println("current speed" + m_drive.getFrontLeftSparkMax().getEncoder().getVelocity());
+    System.out.println("current speed" + (m_drive.getFrontLeftSparkMax().getEncoder().getVelocity() / DriveConstants.kMaxRPM));
     if(m_profile.isFinished(m_timer.get())) {
       m_drive.arcadeDrive(m_endPower, 0);
       m_drive.resetIAccum();

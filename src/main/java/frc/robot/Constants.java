@@ -53,7 +53,7 @@ public final class Constants {
       //the zone in which I is used in the drive PID controller
       //public static final double kIZone = (0.1 * kMaxRPM);
 
-      //max acceleration of robot, in ft/sec/sec
+      //max acceleration of robot, in ft/sec/sec  
       public static final double kMaxAccel = 12;
 
       //motor power below this is considered negligible and not applied

@@ -81,6 +81,14 @@ public class DriveSubsystem extends SubsystemBase {
     motor1R.getPIDController().setReference(rightMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
   }
 
+  public void DriveVelocity(double velocity) {
+    //forward and turning variables for calculation
+    double m_fwd = velocity;
+    System.out.println((m_fwd / DriveConstants.kMaxRobotSpeed) * DriveConstants.kMaxRPM);
+    motor1L.getPIDController().setReference((m_fwd / DriveConstants.kMaxRobotSpeed) * DriveConstants.kMaxRPM , ControlType.kVelocity);
+    motor1R.getPIDController().setReference((m_fwd / DriveConstants.kMaxRobotSpeed) * DriveConstants.kMaxRPM , ControlType.kVelocity);
+  }
+
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     encoderL.setPosition(0);
@@ -192,6 +200,13 @@ public class DriveSubsystem extends SubsystemBase {
   public void resetIAccum() {
     motor1L.getPIDController().setIAccum(0);
     motor1R.getPIDController().setIAccum(0);
+  }
+
+  //get the average speed of the motors
+  public double getVelocity() {
+    double avgVelocity =(getRightEncoder().getVelocity() + getLeftEncoder().getVelocity()) / 2;
+    double conversionFactor = DriveConstants.kMaxRobotSpeed / DriveConstants.kMaxRPM;
+    return avgVelocity * conversionFactor;
   }
 
   @Override

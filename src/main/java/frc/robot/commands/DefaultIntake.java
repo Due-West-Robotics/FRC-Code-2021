@@ -11,6 +11,13 @@ public class DefaultIntake extends CommandBase {
 
   private final IntakeSubsystem m_intake;
 
+  /**
+   * Creates a new DefaultIntake commands
+   * 
+   * @param intake The intake subsystem with which this sequential command will run
+   * 
+   */
+
   public DefaultIntake(IntakeSubsystem intake) {
     m_intake = intake;
     addRequirements(m_intake);

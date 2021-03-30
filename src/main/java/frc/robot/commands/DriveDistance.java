@@ -35,6 +35,15 @@ public class DriveDistance extends CommandBase {
                                                 new TrapezoidProfile.State(0, m_drive.getVelocity()));
   }
 
+  /**
+   * 
+   * @param drive  The drive subsystem on which this command will run
+   * @param inches The number of inches the robot will drive
+   * @param speed  The speed at which the robot will drive
+   * @param endPower The power that the robot will end the command with
+   * 
+   */
+
   public DriveDistance(DriveSubsystem drive, double inches, double speed, double endPower) {
     m_distance = inches;
     m_maxSpeed = speed;

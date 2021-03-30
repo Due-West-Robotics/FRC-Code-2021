@@ -18,6 +18,14 @@ public class CameraAndIntake extends SequentialCommandGroup {
   CameraSubsystem m_camera;
   IntakeSubsystem m_intake;
 
+  /**
+   * 
+   * @param driveSubsystem The drive subsystem with which this sequential command will run
+   * @param cameraSubsystem The camera subsystem with which this sequential command will run
+   * @param intakeSubsystem The intake subsystem with which this sequential command will run
+   * 
+   */
+
   public CameraAndIntake(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, IntakeSubsystem intakeSubsystem) {
     m_drive = driveSubsystem;
     m_camera = cameraSubsystem;

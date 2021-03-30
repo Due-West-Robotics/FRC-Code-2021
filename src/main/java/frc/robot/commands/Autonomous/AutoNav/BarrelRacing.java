@@ -14,6 +14,12 @@ public class BarrelRacing extends SequentialCommandGroup {
 
   DriveSubsystem m_drive;
 
+   /**
+   * Creates a new autonomous BarrelRacing command.
+   *
+   * @param driveSubsystem The drive subsystem with which this sequential command will run
+   */
+
   public BarrelRacing(DriveSubsystem driveSubsystem) {
     m_drive = driveSubsystem;
     addCommands(

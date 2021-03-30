@@ -9,6 +9,12 @@ public class SlalomPath extends SequentialCommandGroup {
 
     DriveSubsystem m_drive;
 
+    /**
+     * Creates a new autonomous SlalomPath command.
+     *
+     * @param driveSubsystem The drive subsystem with which this sequential command will run
+     */
+
     public SlalomPath(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(

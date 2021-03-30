@@ -9,6 +9,14 @@ public class AutoTest extends SequentialCommandGroup {
 
     DriveSubsystem m_drive;
 
+    /**
+     * Creates a new autonomous AutoTest command.
+     * This is our robot testing program.
+     * 
+     * @param driveSubsystem the drive subsystem with which this sequential command will run
+     * 
+     */
+
     public AutoTest(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(

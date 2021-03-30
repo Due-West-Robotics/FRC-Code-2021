@@ -19,7 +19,7 @@ public class JoystickDrive extends CommandBase {
   private double m_fwd, m_rot;
 
   /**
-   * Creates a new DefaultDrive.
+   * Creates a new JoyStickDrive
    *
    * @param subsystem The drive subsystem this command wil run on.
    * @param forward  The control input for driving forwards/backwards

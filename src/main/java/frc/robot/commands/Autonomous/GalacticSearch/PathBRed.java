@@ -10,6 +10,13 @@ public class PathBRed extends SequentialCommandGroup {
     DriveSubsystem m_drive;
     IntakeSubsystem m_intake;
 
+    /**
+     * Creates a new autonomous PathBRed command.
+     *
+     * @param driveSubsystem The drive subsystem with which this sequential command will run
+     * @param intakeSubsystem The intake subsystem with which this sequential command will run
+     */
+
     public PathBRed(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
         m_drive = driveSubsystem;
         m_intake = intakeSubsystem;

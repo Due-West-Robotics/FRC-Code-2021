@@ -9,6 +9,12 @@ public class BouncePath extends SequentialCommandGroup {
 
     DriveSubsystem m_drive;
 
+    /**
+     * Creates a new autonomous BouncePath command.
+     *
+     * @param driveSubsystem The drive subsystem with which this sequential command will run
+     */
+
     public BouncePath(DriveSubsystem driveSubsystem) {
         m_drive = driveSubsystem;
         addCommands(

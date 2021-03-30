@@ -10,9 +10,9 @@ import frc.robot.subsystems.CameraSubsystem;
 public class DefaultCamera extends CommandBase {
   private final CameraSubsystem m_camera;
   /**
-   * Creates a new DefaultDrive.
+   * Creates a new DefaultCamera.
    *
-   * @param m_cameraSubsystem The drive subsystem this command wil run on.
+   * @param m_cameraSubsystem The camera subsystem this command wil run on.
    */
   public DefaultCamera(CameraSubsystem m_cameraSubsystem) {
     m_camera = m_cameraSubsystem;

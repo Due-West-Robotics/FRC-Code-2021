@@ -8,9 +8,11 @@ public class ReverseIntake extends CommandBase {
   private final IntakeSubsystem m_intake;
 
   /**
-   * Creates a new DriveDistance.
+   * Creates a new ReverseIntake
+   * 
+   * This program reverses the intake to get rid of jams.
    *
-   * @param intake The drive subsystem on which this command will run
+   * @param intake The intake subsystem on which this command will run
    */
   public ReverseIntake(IntakeSubsystem intake) {
     m_intake = intake;

@@ -8,9 +8,9 @@ public class StopIntake extends CommandBase {
   private final IntakeSubsystem m_intake;
 
   /**
-   * Creates a new DriveDistance.
+   * Creates a new StopIntake.
    *
-   * @param intake The drive subsystem on which this command will run
+   * @param intake The intake subsystem on which this command will run
    */
   public StopIntake(IntakeSubsystem intake) {
     m_intake = intake;
@@ -19,11 +19,12 @@ public class StopIntake extends CommandBase {
 
   @Override
   public void initialize() {
+    //This stops the intake.
+    m_intake.stopIntake();
   }
 
   @Override
   public void execute() {
-    m_intake.stopIntake();
   }
 
   @Override
@@ -32,6 +33,7 @@ public class StopIntake extends CommandBase {
 
   @Override
   public boolean isFinished() {
+    //This makes the command exit instantly.
     return true;
   }
 }

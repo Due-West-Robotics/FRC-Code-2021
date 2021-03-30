@@ -10,6 +10,13 @@ public class PathABlue extends SequentialCommandGroup {
     DriveSubsystem m_drive;
     IntakeSubsystem m_intake;
 
+    /**
+     * Creates a new autonomous PathABlue command.
+     *
+     * @param driveSubsystem The drive subsystem with which this sequential command will run
+     * @param intakeSubsystem The intake subsystem with which this sequential command will run
+     */
+
     public PathABlue(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
         m_drive = driveSubsystem;
         m_intake = intakeSubsystem;

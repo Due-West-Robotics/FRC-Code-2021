@@ -57,24 +57,21 @@ public class RobotContainer {
   private final Command pathBBlue = new PathBBlue(m_robotDrive, m_intakeSubsystem);
   private final Command pathBRed = new PathBRed(m_robotDrive, m_intakeSubsystem);
 
-  private Command GalacticAChooser() {
-    System.out.println("A Chooser called.");
-    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -4 && m_cameraSubsystem.GetTargetHorizontalOffset() < 4 && m_cameraSubsystem.HasValidTarget() && m_cameraSubsystem.GetTargetArea() < 10){
+  private Command GalacticChooser() {
+    System.out.println("Galactic Chooser called.");
+    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -3 && m_cameraSubsystem.GetTargetHorizontalOffset() < 3 && m_cameraSubsystem.GetTargetArea() > 3){
       System.out.println("Path A Red");
       return pathARed;
     }
-    System.out.println("Path A Blue");
-    return pathABlue;
-  }
-
-  private Command GalacticBChooser() {
-    System.out.println("B Chooser called.");
-    if (m_cameraSubsystem.GetTargetHorizontalOffset() < 0 && m_cameraSubsystem.GetTargetArea() < 10){
+    else if (m_cameraSubsystem.GetTargetHorizontalOffset() < -4){
       System.out.println("Path B Red");
       return pathBRed;
     }
+    else if (m_cameraSubsystem.GetTargetArea() < 2) {
+      System.out.println("Path A Blue");
+      return pathABlue;
+    }
     else {
-      System.out.println("Path B Blue");
       return pathBBlue;
     }
   }
@@ -107,8 +104,7 @@ public class RobotContainer {
     m_chooser.addOption("Bounce Path", myBouncePath);
     m_chooser.addOption("Slalom Path", mySlalomPath);
     m_chooser.addOption("AutoTest", myTestCommand);
-    m_chooser.addOption("Galactic Search Path A", GalacticAChooser());
-    m_chooser.addOption("Galactic Search Path B", GalacticBChooser());
+    m_chooser.addOption("Galactic Search", GalacticChooser());
 
     //Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);

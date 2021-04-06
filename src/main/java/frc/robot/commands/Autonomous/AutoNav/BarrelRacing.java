@@ -5,7 +5,6 @@
 package frc.robot.commands.Autonomous.AutoNav;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
@@ -23,12 +22,12 @@ public class BarrelRacing extends SequentialCommandGroup {
   public BarrelRacing(DriveSubsystem driveSubsystem) {
     m_drive = driveSubsystem;
     addCommands(
-    new DriveDistance(m_drive, 80, 0.5),
-    new TurnDegrees(m_drive, 360, 0.10,DriveConstants.kRight,30),
-    new DriveDistance(m_drive, 100, 0.5),
-    new TurnDegrees(m_drive, 41.41, 0.10,DriveConstants.kLeft,30),
-    new DriveDistance(m_drive, 83.694, 0.5),
-    new TurnDegrees(m_drive, -180, 0.10,DriveConstants.kLeft,25.811),
-    new DriveDistance(m_drive, 245, 0.8));
+    new DriveDistance(m_drive, 112, 1),
+    new TurnDegrees(m_drive, 360, 0.2,DriveConstants.kRight,30),
+    new DriveDistance(m_drive, 100, 1),
+    new TurnDegrees(m_drive, 45, 0.15,DriveConstants.kLeft,30),
+    new DriveDistance(m_drive, 86, 1),
+    new TurnDegrees(m_drive, -178, 0.15,DriveConstants.kLeft,25.811),
+    new DriveDistance(m_drive, 255, 1));
     }
 }

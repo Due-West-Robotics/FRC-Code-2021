@@ -11,7 +11,7 @@ import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
@@ -63,11 +63,11 @@ public class RobotContainer {
       System.out.println("Path A Red");
       return pathARed;
     }
-    else if (m_cameraSubsystem.GetTargetHorizontalOffset() < -4){
+    else if (m_cameraSubsystem.GetTargetHorizontalOffset() > 24){
       System.out.println("Path B Red");
       return pathBRed;
     }
-    else if (m_cameraSubsystem.GetTargetArea() < 2) {
+    else if (m_cameraSubsystem.GetTargetArea() < 2 && Math.abs(m_cameraSubsystem.GetTargetHorizontalOffset()) < 5) {
       System.out.println("Path A Blue");
       return pathABlue;
     }

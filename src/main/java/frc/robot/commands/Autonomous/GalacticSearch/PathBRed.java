@@ -21,19 +21,15 @@ public class PathBRed extends SequentialCommandGroup {
         m_drive = driveSubsystem;
         m_intake = intakeSubsystem;
         addCommands(
-            new DriveDistance(m_drive,-24, 0.65),
+            new DriveDistance(m_drive,12, 1),
+            new DriveDistance(m_drive,-12, 1),
             new StartIntake(m_intake),
-            new DriveDistance(m_drive,34, 0.5),
-            new TurnDegrees(m_drive, -90, 0.5, DriveConstants.kLeft, 19.25),
-            new DriveDistance(m_drive,32.372, 0.5),
-            new TurnDegrees(m_drive, 0, 0.5, DriveConstants.kRight, 17.391),
-            new DriveDistance(m_drive,25.218, 0.5),
-            new TurnDegrees(m_drive, 90, 0.5, DriveConstants.kRight, 17.391),
-            new DriveDistance(m_drive,81.622, 0.5),
-            new TurnDegrees(m_drive, -90, 0.5, DriveConstants.kLeft, 30),
-            new DriveDistance(m_drive,60, 0.5),
-            new TurnDegrees(m_drive, 0, 0.5, DriveConstants.kRight, 21.622),
-            new DriveDistance(m_drive,105, 0.75),
+            new TurnDegrees(m_drive, 40, .1, DriveConstants.kRight, 24),
+            new DriveDistance(m_drive, 118, .3, .3),
+            new TurnDegrees(m_drive, -40, .1, DriveConstants.kLeft, 0),
+            new DriveDistance(m_drive, 93, .3, .3),
+            new TurnDegrees(m_drive, -5, .3, DriveConstants.kRight, 81),
+            new DriveDistance(m_drive, 24,1),
             new StopIntake(m_intake)
         );
     }

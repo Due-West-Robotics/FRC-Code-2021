@@ -59,11 +59,11 @@ public class RobotContainer {
 
   private Command GalacticChooser() {
     System.out.println("Galactic Chooser called.");
-    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -3 && m_cameraSubsystem.GetTargetHorizontalOffset() < 3 && m_cameraSubsystem.GetTargetArea() > 3){
+    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -3 && m_cameraSubsystem.GetTargetHorizontalOffset() < 3 && m_cameraSubsystem.GetTargetArea() > 0.7){
       System.out.println("Path A Red");
       return pathARed;
     }
-    else if (m_cameraSubsystem.GetTargetHorizontalOffset() > 24){
+    else if (m_cameraSubsystem.GetTargetHorizontalOffset() > 20){
       System.out.println("Path B Red");
       return pathBRed;
     }

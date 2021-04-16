@@ -29,7 +29,7 @@ public class PathARed extends SequentialCommandGroup {
             new TurnDegrees(m_drive, 245 + 65.374, 0.2, DriveConstants.kRight, 11),
             new DriveDistance(m_drive, 93.675, 0.2),
             new TurnDegrees(m_drive, 350, 0.2, DriveConstants.kRight, 0),
-            new DriveDistance(m_drive, 155, 0.2)
+            new DriveDistance(m_drive, 155, 1)
         );
     }
 }

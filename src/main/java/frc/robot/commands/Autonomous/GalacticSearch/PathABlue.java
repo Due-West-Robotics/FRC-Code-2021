@@ -30,7 +30,7 @@ public class PathABlue extends SequentialCommandGroup {
             new TurnDegrees(m_drive, 25, .1, DriveConstants.kRight, 0),
             new DriveDistance(m_drive, 48, 0.5),
             new TurnDegrees(m_drive, 10, .1, DriveConstants.kLeft, 15),
-            new DriveDistance(m_drive, 60, 0.5)
+            new DriveDistance(m_drive, 60, 1)
         );
     }
 }

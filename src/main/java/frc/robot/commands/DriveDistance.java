@@ -14,7 +14,7 @@ public class DriveDistance extends CommandBase {
   private boolean finished = false;
   private TrapezoidProfile m_profile;
   private Timer m_timer;
-  int targetSpeed;
+  private double m_endPower;
 
   /**
    * Creates a new DriveDistance.
@@ -31,7 +31,20 @@ public class DriveDistance extends CommandBase {
     addRequirements(m_drive);
     
     m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(m_maxSpeed * DriveConstants.kMaxRobotSpeed, (DriveConstants.kMaxAccel*12)),
-                                                new TrapezoidProfile.State(m_distance, 0));
+                                                new TrapezoidProfile.State(m_distance, 0),
+                                                new TrapezoidProfile.State(0, m_drive.getVelocity()));
+  }
+
+  public DriveDistance(DriveSubsystem drive, double inches, double speed, double endPower) {
+    m_distance = inches;
+    m_maxSpeed = speed;
+    m_drive = drive;
+    m_timer = new Timer();
+    m_endPower = endPower;
+    addRequirements(m_drive);
+    m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(m_maxSpeed * DriveConstants.kMaxRobotSpeed, (DriveConstants.kMaxAccel*12)),
+                                                new TrapezoidProfile.State(m_distance, endPower * DriveConstants.kMaxRobotSpeed),
+                                                new TrapezoidProfile.State(0, m_drive.getVelocity()));
   }
 
   @Override
@@ -57,7 +70,7 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public void execute() {
-    m_targetSpeed = m_profile.calculate(m_timer.get()).velocity / DriveConstants.kMaxRobotSpeed;
+    m_targetSpeed = m_profile.calculate(m_timer.get()).velocity;
     System.out.println("timer" + m_timer.get());
     System.out.println("target time" + m_profile.totalTime());
     System.out.println("target speed" + m_targetSpeed);
@@ -67,7 +80,7 @@ public class DriveDistance extends CommandBase {
       m_drive.resetIAccum();
       finished = true;
     } else {
-      m_drive.arcadeDrive(m_targetSpeed,0);
+      m_drive.DriveVelocity(m_targetSpeed);
     }
   }
 

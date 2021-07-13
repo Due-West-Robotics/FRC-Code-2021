@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    Command m_autonomousCommand = m_robotContainer.AutoTest();
+    Command m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     
     m_robotContainer.resetGyro();
     
@@ -104,7 +104,6 @@ public class Robot extends TimedRobot {
 
     Command commandTest = m_robotContainer.testCommand();
     
-
     // schedule the autonomous command (example)
     if (commandTest != null) {
       System.out.println("command scheduled");

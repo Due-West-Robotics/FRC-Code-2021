@@ -3,23 +3,24 @@ package frc.robot.commands;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
   
-public class StartIntake extends CommandBase {
+public class StopIntake extends CommandBase {
   
   private final IntakeSubsystem m_intake;
 
   /**
-   * Creates a new DriveDistance.
+   * Creates a new StopIntake.
    *
-   * @param intake The drive subsystem on which this command will run
+   * @param intake The intake subsystem on which this command will run
    */
-  public StartIntake(IntakeSubsystem intake) {
+  public StopIntake(IntakeSubsystem intake) {
     m_intake = intake;
     addRequirements(m_intake);
   }
 
   @Override
   public void initialize() {
-    m_intake.startIntake();
+    //This stops the intake.
+    m_intake.stopIntake();
   }
 
   @Override
@@ -32,6 +33,7 @@ public class StartIntake extends CommandBase {
 
   @Override
   public boolean isFinished() {
+    //This makes the command exit instantly.
     return true;
   }
 }

@@ -5,20 +5,27 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
-import frc.robot.Constants.*;
+//import frc.robot.Constants.*;
 import frc.robot.commands.*;
 
-public class testcommand extends SequentialCommandGroup {
+public class CameraAndIntake extends SequentialCommandGroup {
 
   DriveSubsystem m_drive;
   CameraSubsystem m_camera;
   IntakeSubsystem m_intake;
 
-  public testcommand(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, IntakeSubsystem intakeSubsystem) {
+  /**
+   * 
+   * @param driveSubsystem The drive subsystem with which this sequential command will run
+   * @param cameraSubsystem The camera subsystem with which this sequential command will run
+   * @param intakeSubsystem The intake subsystem with which this sequential command will run
+   * 
+   */
+
+  public CameraAndIntake(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, IntakeSubsystem intakeSubsystem) {
     m_drive = driveSubsystem;
     m_camera = cameraSubsystem;
     m_intake = intakeSubsystem;

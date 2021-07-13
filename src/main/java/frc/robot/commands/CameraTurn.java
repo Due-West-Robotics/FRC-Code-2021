@@ -1,24 +1,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.Constants;
 
 public class CameraTurn extends CommandBase {
     private final CameraSubsystem m_camera;
     private final DriveSubsystem m_drive;
     private boolean finished = false;
     /**
-     * Creates a new DefaultDrive.
+     * Creates a new CameraTurn.
+     * This is a command that turns the robot until it finds a target,
+     * turns on the intake, and pulls the power cell in.
      *
      * @param m_cameraSubsystem The drive subsystem this command wil run on.
      */
     public CameraTurn(CameraSubsystem m_cameraSubsystem, DriveSubsystem m_driveSubsystem) {
       m_camera = m_cameraSubsystem;
       m_drive = m_driveSubsystem;
-      addRequirements(m_camera);
+      //addRequirements(m_camera);
       addRequirements(m_drive);
   }
   

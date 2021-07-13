@@ -10,11 +10,27 @@ public class PathBRed extends SequentialCommandGroup {
     DriveSubsystem m_drive;
     IntakeSubsystem m_intake;
 
-    public PathBRed(DriveSubsystem driveSubsystem) {
+    /**
+     * Creates a new autonomous PathBRed command.
+     *
+     * @param driveSubsystem The drive subsystem with which this sequential command will run
+     * @param intakeSubsystem The intake subsystem with which this sequential command will run
+     */
+
+    public PathBRed(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
         m_drive = driveSubsystem;
+        m_intake = intakeSubsystem;
         addCommands(
+            new DriveDistance(m_drive,12, 1),
+            new DriveDistance(m_drive,-12, 1),
             new StartIntake(m_intake),
-            new DriveDistance(m_drive, 12, 0.5)
+            new TurnDegrees(m_drive, 40, .1, DriveConstants.kRight, 24),
+            new DriveDistance(m_drive, 118, .3, .3),
+            new TurnDegrees(m_drive, -40, .1, DriveConstants.kLeft, 0),
+            new DriveDistance(m_drive, 93, .3, .3),
+            new TurnDegrees(m_drive, -5, .3, DriveConstants.kRight, 81),
+            new DriveDistance(m_drive, 60,1),
+            new StopIntake(m_intake)
         );
     }
 }

@@ -19,7 +19,7 @@ public class JoystickDrive extends CommandBase {
   private double m_fwd, m_rot;
 
   /**
-   * Creates a new DefaultDrive.
+   * Creates a new JoyStickDrive
    *
    * @param subsystem The drive subsystem this command wil run on.
    * @param forward  The control input for driving forwards/backwards
@@ -40,7 +40,7 @@ public class JoystickDrive extends CommandBase {
     double rotSign = Math.signum(m_rotation.getAsDouble());
 
     m_fwd = Math.pow(m_forward.getAsDouble(),2);
-    m_rot = Math.pow(m_rotation.getAsDouble(),2);
+    m_rot = Math.pow(m_rotation.getAsDouble(),4);
   
 
     //add thresholds for very low power
@@ -50,7 +50,6 @@ public class JoystickDrive extends CommandBase {
     if(Math.abs(m_rot) < DriveConstants.kMinPower) {
       m_rot = 0;
     }
-    System.out.println("direction" + fwdSign);
     if(fwdSign < 0) {
       m_fwd *= -1;
     }
@@ -61,7 +60,7 @@ public class JoystickDrive extends CommandBase {
     if(Math.abs(m_fwd) + Math.abs(m_rot) < DriveConstants.kMinPower) {
       m_drive.resetIAccum();
     }
-    m_drive.arcadeDrive(m_fwd, 0);
+    m_drive.arcadeDrive(m_fwd, m_rot);
 
     SmartDashboard.putNumber("Target Speed", m_fwd);
   }

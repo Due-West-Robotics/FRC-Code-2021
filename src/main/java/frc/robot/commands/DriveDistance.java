@@ -15,13 +15,14 @@ public class DriveDistance extends CommandBase {
   private TrapezoidProfile m_profile;
   private Timer m_timer;
   private double m_endPower;
+  private int targetSpeed;
 
   /**
    * Creates a new DriveDistance.
    *
+   * @param drive  The drive subsystem on which this command will run
    * @param inches The number of inches the robot will drive
    * @param speed  The speed at which the robot will drive
-   * @param drive  The drive subsystem on which this command will run
    */
   public DriveDistance(DriveSubsystem drive, double inches, double speed) {
     m_distance = inches;
@@ -29,12 +30,19 @@ public class DriveDistance extends CommandBase {
     m_drive = drive;
     m_timer = new Timer();
     addRequirements(m_drive);
-    
     m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(m_maxSpeed * DriveConstants.kMaxRobotSpeed, (DriveConstants.kMaxAccel*12)),
                                                 new TrapezoidProfile.State(m_distance, 0),
                                                 new TrapezoidProfile.State(0, m_drive.getVelocity()));
   }
 
+  /**
+   * 
+   * @param drive  The drive subsystem on which this command will run
+   * @param inches The number of inches the robot will drive
+   * @param speed  The speed at which the robot will drive
+   * @param endPower The power that the robot will end the command with
+   * 
+   */
   public DriveDistance(DriveSubsystem drive, double inches, double speed, double endPower) {
     m_distance = inches;
     m_maxSpeed = speed;
@@ -44,13 +52,14 @@ public class DriveDistance extends CommandBase {
     addRequirements(m_drive);
     m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(m_maxSpeed * DriveConstants.kMaxRobotSpeed, (DriveConstants.kMaxAccel*12)),
                                                 new TrapezoidProfile.State(m_distance, endPower * DriveConstants.kMaxRobotSpeed),
-                                                new TrapezoidProfile.State(0, m_drive.getVelocity()));
+                                                new TrapezoidProfile.State(0, (m_drive.getVelocity() / DriveConstants.kMaxRPM) * DriveConstants.kMaxRobotSpeed));
   }
 
   @Override
   public void initialize() {
     m_drive.resetEncoders();
-    m_drive.setBrake();
+    System.out.println("\n\nSPEED RIGHT NOW: " + m_drive.getVelocity());
+    System.out.println("Total Time: " + m_profile.totalTime());
     if (m_distance > 0) {
       if(m_maxSpeed < 0) {
         m_maxSpeed *= -1;
@@ -72,11 +81,10 @@ public class DriveDistance extends CommandBase {
   public void execute() {
     m_targetSpeed = m_profile.calculate(m_timer.get()).velocity;
     System.out.println("timer" + m_timer.get());
-    System.out.println("target time" + m_profile.totalTime());
     System.out.println("target speed" + m_targetSpeed);
-    System.out.println("current speed" + m_drive.getFrontLeftSparkMax().getEncoder().getVelocity());
+    System.out.println("current speed" + (m_drive.getFrontLeftSparkMax().getEncoder().getVelocity() / DriveConstants.kMaxRPM));
     if(m_profile.isFinished(m_timer.get())) {
-      m_drive.arcadeDrive(0, 0);
+      m_drive.arcadeDrive(m_endPower, 0);
       m_drive.resetIAccum();
       finished = true;
     } else {
@@ -86,7 +94,7 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.arcadeDrive(0, 0);
+    //m_drive.arcadeDrive(0, 0);
     //m_drive.setCoast();
   }
 

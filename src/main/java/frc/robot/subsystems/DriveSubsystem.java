@@ -77,6 +77,8 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotorOutput = MathUtil.clamp(leftMotorOutput, -1.0, 1.0);
     rightMotorOutput = MathUtil.clamp(rightMotorOutput, -1.0, 1.0);
 
+    setCoast();
+
     motor1L.getPIDController().setReference(leftMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
     motor1R.getPIDController().setReference(rightMotorOutput * DriveConstants.kMaxRPM , ControlType.kVelocity);
   }
@@ -204,9 +206,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   //get the average speed of the motors
   public double getVelocity() {
-    double avgVelocity =(getRightEncoder().getVelocity() + getLeftEncoder().getVelocity()) / 2;
-    double conversionFactor = DriveConstants.kMaxRobotSpeed / DriveConstants.kMaxRPM;
-    return avgVelocity * conversionFactor;
+    return (getRightEncoder().getVelocity() + getRightEncoder().getVelocity()) / 2;
   }
 
   @Override

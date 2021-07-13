@@ -11,6 +11,7 @@ import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
@@ -33,14 +34,6 @@ public class RobotContainer {
 
   // The autonomous routines
 
-  // A simple auto routine that drives forward a specified distance, and then stops.
-  /*private final Command m_simpleAuto =
-      new DriveDistance(
-          AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed, m_robotDrive);
-
- /* // A complex auto routine that drives forward, drops a hatch, and then drives backward.
-  private final Command m_complexAuto = new ComplexAuto(m_robotDrive, m_hatchSubsystem);
-*/
   //A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -53,6 +46,35 @@ public class RobotContainer {
   () -> m_driverController.getX(GenericHID.Hand.kRight));
 
   private final Command m_defaultDrive = new DefaultDrive(m_robotDrive);
+
+  private final Command myBarrelRacing = new BarrelRacing(m_robotDrive);
+  private final Command myBouncePath = new BouncePath(m_robotDrive);
+  private final Command mySlalomPath = new SlalomPath(m_robotDrive);
+  private final Command myTestCommand = new AutoTest(m_robotDrive);
+
+  private final Command pathABlue = new PathABlue(m_robotDrive, m_intakeSubsystem);
+  private final Command pathARed = new PathARed(m_robotDrive, m_intakeSubsystem);
+  private final Command pathBBlue = new PathBBlue(m_robotDrive, m_intakeSubsystem);
+  private final Command pathBRed = new PathBRed(m_robotDrive, m_intakeSubsystem);
+
+  private Command GalacticChooser() {
+    System.out.println("Galactic Chooser called.");
+    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -3 && m_cameraSubsystem.GetTargetHorizontalOffset() < 3 && m_cameraSubsystem.GetTargetArea() > 0.7){
+      System.out.println("Path A Red");
+      return pathARed;
+    }
+    else if (m_cameraSubsystem.GetTargetHorizontalOffset() > 20){
+      System.out.println("Path B Red");
+      return pathBRed;
+    }
+    else if (m_cameraSubsystem.GetTargetArea() < 2 && Math.abs(m_cameraSubsystem.GetTargetHorizontalOffset()) < 5) {
+      System.out.println("Path A Blue");
+      return pathABlue;
+    }
+    else {
+      return pathBBlue;
+    }
+  }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,7 +90,6 @@ public class RobotContainer {
             m_robotDrive,
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
-  }
 
     /*m_intakeSubsystem.setDefaultCommand(
       // A split-stick arcade command, with forward/backward controlled by the left
@@ -76,14 +97,17 @@ public class RobotContainer {
 
       new DefaultIntake(
           m_intakeSubsystem));
-
+    */
 
    // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Default", m_arcadeDrive);
-    //m_chooser.addOption("Complex Auto", m_arcadeDrive);
+    m_chooser.setDefaultOption("Barrel Racing", myBarrelRacing);
+    m_chooser.addOption("Bounce Path", myBouncePath);
+    m_chooser.addOption("Slalom Path", mySlalomPath);
+    m_chooser.addOption("AutoTest", myTestCommand);
+    m_chooser.addOption("Galactic Search", GalacticChooser());
 
     //Put the chooser on the dashboard
-    Shuffleboard.getTab("Teleop").add(m_chooser);
+    Shuffleboard.getTab("Autonomous").add(m_chooser);
   }
 
   /**
@@ -102,71 +126,12 @@ public class RobotContainer {
 
 
 
-  /*public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
-  }
-   /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-
-  public Command getTeleopCommand() {
+  public Command getAutonomousCommand() {
     return m_chooser.getSelected();
   }
 
   public void arcadeDrive() {
     m_arcadeDrive.schedule();
-  }
-
-  public Command Galactic1Chooser() {
-    Command pathABlue = new PathABlue(m_robotDrive);
-    Command pathARed = new PathARed(m_robotDrive);
-    Command defaultDrive = new DefaultDrive(m_robotDrive);
-    
-    if (m_cameraSubsystem.GetTargetHorizontalOffset() > -4 && m_cameraSubsystem.GetTargetHorizontalOffset() < 4 && m_cameraSubsystem.GetTargetHorizontalOffset() != 0){
-      return pathARed;
-    }
-    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
-      return pathABlue;}
-    else {
-      return defaultDrive;
-    }
-  }
-
-  public Command Galactic2Chooser() {
-    Command pathBBlue = new PathBBlue(m_robotDrive);
-    Command pathBRed = new PathBRed(m_robotDrive);
-    Command defaultDrive = new DefaultDrive(m_robotDrive);
-
-    if (m_cameraSubsystem.GetTargetHorizontalOffset() < 0){
-      return pathBRed;
-    }
-    else if (m_cameraSubsystem.GetTargetHorizontalOffset() == 0) {
-      return pathBBlue;}
-    else {
-      return defaultDrive;
-    }
-  }
-
-  public Command BarrelRacing(){
-    Command BarrelRacing = new BarrelRacing(m_robotDrive);
-    return BarrelRacing;
-  }
-
-  public Command slalomPath() {
-    Command mySlalomPath = new SlalomPath(m_robotDrive);
-    return mySlalomPath;
-  }
-
-  public Command testCommand(){
-    Command myTestCommand = new testcommand(m_robotDrive, m_cameraSubsystem, m_intakeSubsystem);
-    return myTestCommand;
-  }
-  
-  public Command AutoTest() {
-    Command myAutoTest = new AutoTest(m_robotDrive);
-    return myAutoTest;
   }
 
   public void resetGyro(){
@@ -187,5 +152,9 @@ public class RobotContainer {
 
   public void resetEncoders() {
     m_robotDrive.resetEncoders();
+  }
+  public Command testCommand() {
+    Command testCommand = new AutoTest(m_robotDrive);
+    return testCommand;
   }
 }

@@ -25,6 +25,10 @@ public class DefaultDrive extends CommandBase {
   }
 
   @Override
+  public void initialize() {
+  }
+
+  @Override
   public void execute() {
     
   }

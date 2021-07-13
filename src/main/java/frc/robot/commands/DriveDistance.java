@@ -43,7 +43,6 @@ public class DriveDistance extends CommandBase {
    * @param endPower The power that the robot will end the command with
    * 
    */
-
   public DriveDistance(DriveSubsystem drive, double inches, double speed, double endPower) {
     m_distance = inches;
     m_maxSpeed = speed;
@@ -80,7 +79,7 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public void execute() {
-    m_targetSpeed = m_profile.calculate(m_timer.get()).velocity / DriveConstants.kMaxRobotSpeed;
+    m_targetSpeed = m_profile.calculate(m_timer.get()).velocity;
     System.out.println("timer" + m_timer.get());
     System.out.println("target speed" + m_targetSpeed);
     System.out.println("current speed" + (m_drive.getFrontLeftSparkMax().getEncoder().getVelocity() / DriveConstants.kMaxRPM));
@@ -89,7 +88,7 @@ public class DriveDistance extends CommandBase {
       m_drive.resetIAccum();
       finished = true;
     } else {
-      m_drive.arcadeDrive(m_targetSpeed,0);
+      m_drive.DriveVelocity(m_targetSpeed);
     }
   }
 

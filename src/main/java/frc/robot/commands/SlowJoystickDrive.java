@@ -12,20 +12,20 @@ import frc.robot.subsystems.DriveSubsystem;
  * explicitly for pedagogical purposes - actual code should inline a command this simple with {@link
  * edu.wpi.first.wpilibj2.command.RunCommand}.
  */
-public class JoystickDrive extends CommandBase {
+public class SlowJoystickDrive extends CommandBase {
   private final DriveSubsystem m_drive;
   private final DoubleSupplier m_forward;
   private final DoubleSupplier m_rotation;
   private double m_fwd, m_rot;
 
   /**
-   * Creates a new JoyStickDrive
+   * Creates a new SlowJoyStickDrive
    *
    * @param subsystem The drive subsystem this command wil run on.
    * @param forward  The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public JoystickDrive(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
+  public SlowJoystickDrive(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
     m_drive = subsystem;
     m_forward = forward;
     m_rotation = rotation;
@@ -35,12 +35,14 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void execute() {
 
+     // @todo Add max speed of 70%
+     
     //get the sign of each value (needed for squared sensitivity)
     double fwdSign = Math.signum(-m_forward.getAsDouble());
     double rotSign = Math.signum(m_rotation.getAsDouble());
 
-    m_fwd = Math.pow(m_forward.getAsDouble(),2);
-    m_rot = Math.pow(m_rotation.getAsDouble(),4);
+    m_fwd = Math.pow(m_forward.getAsDouble(),2) * DriveConstants.kSlow;
+    m_rot = Math.pow(m_rotation.getAsDouble(),4) * DriveConstants.kSlow;
   
 
     //add thresholds for very low power

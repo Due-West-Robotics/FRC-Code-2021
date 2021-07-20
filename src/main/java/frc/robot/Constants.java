@@ -58,6 +58,9 @@ public final class Constants {
 
       //motor power below this is considered negligible and not applied
       public static final double kMinPower = 0.005;
+
+      public static final double kFast = 1.0;
+      public static final double kSlow = 0.2;
     }
   
     public static final class HatchConstants {
@@ -73,8 +76,11 @@ public final class Constants {
   
     public static final class OIConstants {
       public static final int kDriverControllerPort = 1;
-      public static final int kButtonIntakeOn = 5;
-      public static final int kButtonIntakeOff = 6;
-      public static final int kButtonIntakeReverse = 1;
+      public static final int kButtonIntakeOn = 1;
+      public static final int kButtonIntakeOff = 2;
+      public static final int kButtonIntakeReverse = 5;
+      public static final int kButtonFastGear = 9;
+      public static final int kButtonSlowGear = 11;
+
     }
   }

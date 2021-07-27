@@ -1,4 +1,4 @@
-package frc.robot.commands.Autonomous.AutoNav;
+package frc.robot.commands.Autonomous.AtHomePaths.AutoNav;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;

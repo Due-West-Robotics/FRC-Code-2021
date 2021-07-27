@@ -8,12 +8,12 @@ import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SPI;
 
 public class DriveSubsystem extends SubsystemBase {
 
   //define hardware objects
-  private final AHRS ahrs = new AHRS(SerialPort.Port.kUSB);
+  private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
   private final CANSparkMax motor1L = new CANSparkMax(DriveConstants.kLeftMotor1Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor2L = new CANSparkMax(DriveConstants.kLeftMotor2Port,CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax motor1R = new CANSparkMax(DriveConstants.kRightMotor1Port,CANSparkMax.MotorType.kBrushless);

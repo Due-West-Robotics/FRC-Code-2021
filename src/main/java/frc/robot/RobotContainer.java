@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.*;
+import frc.robot.commands.DrivingCommands.*;
+import frc.robot.commands.IntakeCommands.*;
 import frc.robot.commands.Autonomous.AtHomePaths.AutoNav.*;
 import frc.robot.commands.Autonomous.AtHomePaths.GalacticSearch.*;
 import frc.robot.commands.Autonomous.*;
@@ -44,9 +45,9 @@ public class RobotContainer {
   () -> m_driverController.getY(GenericHID.Hand.kLeft),
   () -> m_driverController.getX(GenericHID.Hand.kRight));
 
-  private final Command m_defaultDrive = new DefaultDrive(m_robotDrive);
+  //private final Command m_defaultDrive = new DefaultDrive(m_robotDrive);
 
-  private final Command myBarrelRacing = new BarrelRacing(m_robotDrive);
+  /*private final Command myBarrelRacing = new BarrelRacing(m_robotDrive);
   private final Command myBouncePath = new BouncePath(m_robotDrive);
   private final Command mySlalomPath = new SlalomPath(m_robotDrive);
   private final Command myTestCommand = new AutoTest(m_robotDrive);
@@ -73,7 +74,7 @@ public class RobotContainer {
     else {
       return pathBBlue;
     }
-  }
+  }*/
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -96,7 +97,7 @@ public class RobotContainer {
 
       new DefaultIntake(
           m_intakeSubsystem));
-    */
+      
 
    // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Barrel Racing", myBarrelRacing);
@@ -107,6 +108,7 @@ public class RobotContainer {
 
     //Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
+    */
   }
 
   /**

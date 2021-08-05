@@ -1,9 +1,11 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.*;
+import frc.robot.commands.DrivingCommands.*;
+import frc.robot.commands.IntakeCommands.*;
 
 public class CompetitionAuto extends SequentialCommandGroup {
 
@@ -25,6 +27,8 @@ public class CompetitionAuto extends SequentialCommandGroup {
 
         addCommands(
             new DriveDistance(m_drive, 36, .3, 0),
-            new ReverseIntake(m_intake) /*or whatever we are using to shoot the power cells*/);
+            new LaunchIntake(m_intake),
+            new WaitCommand(5),
+            new StopIntake(m_intake));
     }
 }

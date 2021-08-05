@@ -8,6 +8,8 @@ public class IntakeSubsystem extends SubsystemBase{
 
     private final CANSparkMax intakeMotor = new CANSparkMax(DriveConstants.kIntakeMotorPort,
                                                             CANSparkMax.MotorType.kBrushless);
+    private final CANSparkMax shootingMotor = new CANSparkMax(DriveConstants.kShootingMotorPort,
+                                                              CANSparkMax.MotorType.kBrushless);
 
     public IntakeSubsystem() {
 
@@ -15,14 +17,21 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public void stopIntake() {
       intakeMotor.set(0);
+      shootingMotor.set(0);
     }
 
     public void startIntake() {
-      intakeMotor.set(-1); //75
+      intakeMotor.set(-0.75);
     }
 
     public void reverse() {
       intakeMotor.set(0.5);
+      shootingMotor.set(0.5);
+    }
+
+    public void launchIntake(){
+      intakeMotor.set(-0.5);
+      shootingMotor.set(0.5);
     }
 
     @Override

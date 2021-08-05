@@ -1,26 +1,26 @@
-package frc.robot.commands;
+package frc.robot.commands.IntakeCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
   
-public class StartIntake extends CommandBase {
+public class StopIntake extends CommandBase {
   
   private final IntakeSubsystem m_intake;
 
   /**
-   * Creates a new StartIntake.
+   * Creates a new StopIntake.
    *
    * @param intake The intake subsystem on which this command will run
    */
-  public StartIntake(IntakeSubsystem intake) {
+  public StopIntake(IntakeSubsystem intake) {
     m_intake = intake;
     addRequirements(m_intake);
   }
 
   @Override
   public void initialize() {
-    //This starts the intake.
-    m_intake.startIntake();
+    //This stops the intake.
+    m_intake.stopIntake();
   }
 
   @Override

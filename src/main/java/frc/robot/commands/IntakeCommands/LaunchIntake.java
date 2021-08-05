@@ -1,9 +1,9 @@
-package frc.robot.commands;
+package frc.robot.commands.IntakeCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
   
-public class ReverseIntake extends CommandBase {
+public class LaunchIntake extends CommandBase {
   
   private final IntakeSubsystem m_intake;
 
@@ -14,14 +14,14 @@ public class ReverseIntake extends CommandBase {
    *
    * @param intake The intake subsystem on which this command will run
    */
-  public ReverseIntake(IntakeSubsystem intake) {
+  public LaunchIntake(IntakeSubsystem intake) {
     m_intake = intake;
     addRequirements(m_intake);
   }
 
   @Override
   public void initialize() {
-    m_intake.reverse();
+    m_intake.launchIntake();
   }
 
   @Override

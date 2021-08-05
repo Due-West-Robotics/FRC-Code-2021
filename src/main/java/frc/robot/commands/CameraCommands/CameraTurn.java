@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.CameraCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CameraSubsystem;
@@ -18,7 +18,6 @@ public class CameraTurn extends CommandBase {
     public CameraTurn(CameraSubsystem m_cameraSubsystem, DriveSubsystem m_driveSubsystem) {
       m_camera = m_cameraSubsystem;
       m_drive = m_driveSubsystem;
-      //addRequirements(m_camera);
       addRequirements(m_drive);
   }
   

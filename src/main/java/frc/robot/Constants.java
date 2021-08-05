@@ -24,6 +24,7 @@ public final class Constants {
       public static final int kRightMotor1Port = 1;
       public static final int kRightMotor2Port = 2;
       public static final int kIntakeMotorPort = 5;
+      public static final int kShootingMotorPort = 6;
 
       //encoder constants  
       public static final int[] kLeftEncoderPorts = new int[] {0, 1};

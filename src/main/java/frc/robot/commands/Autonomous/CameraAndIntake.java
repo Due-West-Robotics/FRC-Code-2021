@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
-//import frc.robot.Constants.*;
-import frc.robot.commands.*;
+import frc.robot.commands.DrivingCommands.*;
+import frc.robot.commands.CameraCommands.*;
+import frc.robot.commands.IntakeCommands.*;
 
 public class CameraAndIntake extends SequentialCommandGroup {
 

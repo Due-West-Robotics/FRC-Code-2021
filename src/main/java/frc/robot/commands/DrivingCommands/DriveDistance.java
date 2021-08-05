@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.DrivingCommands;
 
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
@@ -15,7 +15,6 @@ public class DriveDistance extends CommandBase {
   private TrapezoidProfile m_profile;
   private Timer m_timer;
   private double m_endPower;
-  private int targetSpeed;
 
   /**
    * Creates a new DriveDistance.

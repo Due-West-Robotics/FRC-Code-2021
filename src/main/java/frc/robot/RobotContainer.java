@@ -7,18 +7,25 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
-import frc.robot.subsystems.CameraSubsystem;
+//import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DrivingCommands.*;
 import frc.robot.commands.IntakeCommands.*;
-import frc.robot.commands.Autonomous.AtHomePaths.AutoNav.*;
-import frc.robot.commands.Autonomous.AtHomePaths.GalacticSearch.*;
+//import frc.robot.commands.Autonomous.AtHomePaths.AutoNav.*;
+//import frc.robot.commands.Autonomous.AtHomePaths.GalacticSearch.*;
 import frc.robot.commands.Autonomous.*;
 import frc.robot.subsystems.IntakeSubsystem;
+
+/** We removed any reference to the Camera Subsystem from this file since we will not be
+ *  using the camera in the competition.
+*/
+
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,12 +37,12 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem();
+  //private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem();
 
   // The autonomous routines
 
   //A chooser for autonomous commands
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 
   // The driver's controller
@@ -44,6 +51,8 @@ public class RobotContainer {
   private final Command m_arcadeDrive = new SlowJoystickDrive(m_robotDrive,
   () -> m_driverController.getY(GenericHID.Hand.kLeft),
   () -> m_driverController.getX(GenericHID.Hand.kRight));
+
+  private final Command m_autoCommand = new CompetitionAuto(m_robotDrive, m_intakeSubsystem);
 
   //private final Command m_defaultDrive = new DefaultDrive(m_robotDrive);
 
@@ -118,10 +127,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Grab the hatch when the 'A' button is pressed.
     new JoystickButton(m_driverController, OIConstants.kButtonIntakeOn).whenPressed(new StartIntake(m_intakeSubsystem));
     new JoystickButton(m_driverController, OIConstants.kButtonIntakeOff).whenPressed(new StopIntake(m_intakeSubsystem));
     new JoystickButton(m_driverController, OIConstants.kButtonIntakeReverse).whenPressed(new ReverseIntake(m_intakeSubsystem));
+    new JoystickButton(m_driverController, OIConstants.kButtonLaunchIntake).whenPressed(new LaunchIntake(m_intakeSubsystem));
     new JoystickButton(m_driverController, OIConstants.kButtonFastGear).whenPressed(new FastJoystickDrive(m_robotDrive,
     () -> m_driverController.getY(GenericHID.Hand.kLeft),
     () -> m_driverController.getX(GenericHID.Hand.kRight)));
@@ -129,12 +138,9 @@ public class RobotContainer {
     () -> m_driverController.getY(GenericHID.Hand.kLeft),
     () -> m_driverController.getX(GenericHID.Hand.kRight)));
     }
-    
-
-
-
+  
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
+    return m_autoCommand;
   }
 
   public void arcadeDrive() {

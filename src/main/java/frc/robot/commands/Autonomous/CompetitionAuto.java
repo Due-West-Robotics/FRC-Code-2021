@@ -26,6 +26,7 @@ public class CompetitionAuto extends SequentialCommandGroup {
         m_intake = intakeSubsystem;
 
         addCommands(
+            new DriveDistance(m_drive, -12, 0.75, 0),
             new DriveDistance(m_drive, 36, .3, 0),
             new LaunchIntake(m_intake),
             new WaitCommand(5),
